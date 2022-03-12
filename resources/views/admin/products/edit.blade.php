@@ -1,5 +1,11 @@
 @extends('admin.layouts.app')
 @section('style')
+<style>
+    #removePropImgRow {
+        padding: 12px;
+        margin-left: 3px;
+    }
+</style>
 @endsection
 @section('content')
 @include('admin.inc.validation_message')
@@ -10,26 +16,38 @@
         <div class="row align-items-center">
             <div class="border-0 mb-4">
                 <div class="card-header py-3 no-bg bg-transparent d-flex align-items-center px-0 justify-content-between border-bottom flex-wrap">
+                    <span class="btn btn-primary py-2 px-5 text-uppercase btn-set-task w-sm-100">Add</span>
                     <h3 class="fw-bold mb-0"></h3>
-                    <a href="{{route('admin.categories.index')}}" class="btn btn-primary py-2 px-5 text-uppercase btn-set-task w-sm-100">lIST</a>
+                    <a href="{{route('admin.products.index')}}" class="btn btn-primary py-2 px-5 text-uppercase btn-set-task w-sm-100">lIST</a>
                 </div>
             </div>
         </div> <!-- Row end  -->
         <div class="row g-3 mb-3">
-            <div class="col-lg-8">
+            <div class="col-lg-12">
                 <div class="card mb-3">
                     <div class="card-header py-3 d-flex justify-content-between bg-transparent border-bottom-0">
-                        <h6 class="mb-0 fw-bold ">Category List</h6>
+                        <h6 class="mb-0 fw-bold ">Products</h6>
                     </div>
                     <div class="card-body">
-                    {!! Form::model($categories, ['method' => 'PATCH','route' => ['admin.categories.update', $categories->id],'files'=>true]) !!}
+                    {!! Form::model($products, ['method' => 'PATCH','route' => ['admin.products.update', $products->id],'files'=>true]) !!}
                             @csrf
                             <!-- <div class="row g-3 align-items-center"> -->
                             <div class="row">
                                 <div class="col-md-6">
                                     <label class="form-label">Name</label>
-                                    <!-- <input type="text" name="name" class="form-control"> -->
-                                    {!! Form::text('name', $categories->name, array('placeholder' => 'Category Title','class' => 'form-control')) !!}
+                                    {{ Form::text('name',$products->name,['class' => 'form-control']) }}
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Price</label>
+                                    {{ Form::text('price',$products->price,['class' => 'form-control']) }}
+                                </div>
+                            </div>
+
+                            
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label class="form-label">Category</label>
+                                    {{ Form::select('category_id', $categories, '', ['class' => 'form-control','id' => 'category_id']) }}
                                 </div>
                                 <div class="col-md-6">
                                     <div class="card-header py-3 d-flex justify-content-between align-items-center bg-transparent border-bottom-0">
@@ -37,7 +55,7 @@
                                     </div>
                                     <div class="card-body">
                                         <div class="form-check">
-                                            <input class="form-check-input" @if($categories->status == 1) {{'checked'}} @endif type="radio" name="status" value="1" checked>
+                                            <input class="form-check-input" type="radio" name="status" value="1" checked>
                                             <label class="form-check-label">
                                                 Published
                                             </label>
@@ -50,17 +68,33 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="card">
-                                    <div class="card-header py-3 bg-transparent border-bottom-0">
-                                        <h6 class="m-0 fw-bold">Image Upload</h6>
-                                    </div>
-                                    <div class="card-body">
-                                        <input type="file" name="image" id="dropify-event" data-default-file="{{asset('storage/app/public/categories/'.$categories->image)}}">
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                <label class="form-label">Description</label>
+                                {{ Form::textarea('description',$products->description,['rows' => 4,'id' => 'description', 'class' => 'form-control']) }}               
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h3 class="panel-title"><strong> Images</strong></h3><br /><br />
+                                </div>
+                            </div>
+                            <div class="">
+                                <div class="text-center" style="margin: 20px 0px 20px 0px;">
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6">
+
+                                        <button id="addPropertyImgeRow" type="button" class="btn btn-primary btn-info">Add Row</button>
+
+                                        <input type="file" name="image[]" class="form-control">
+                                        <div id="newPropImgRow"></div>
                                     </div>
                                 </div>
                             </div>
                             <button type="submit" class="btn btn-primary py-2 px-5 text-uppercase btn-set-task w-sm-100">Save</button>
-                            <!-- </div> -->
                         </form>
                     </div>
                 </div>
@@ -72,35 +106,30 @@
 @endsection
 @section('script')
 <script>
-    $(document).ready(function() {
-        //Ch-editer
-        ClassicEditor
-            .create(document.querySelector('#editor'))
-            .catch(error => {
-                console.error(error);
-            });
-        //Deleterow
-        $("#tbproduct").on('click', '.deleterow', function() {
-            $(this).closest('tr').remove();
-        });
+    $("#addPropertyImgeRow").click(function() {
+
+        var html = '';
+        html += '<div id="inputPropImgRow">';
+        html += '<div class="input-group mb-3">';
+        html += '<input type="file" class="form-control" name="image[]" />';
+        html += '<div class="input-group-append">';
+        html += '<button id="removePropImgRow" type="button" class="btn btn-danger"><i class="icofont-ui-delete text-danger"></i></button>';
+        html += '</div>';
+        html += '</div>';
+
+        $('#newPropImgRow').append(html);
+
     });
-    $(function() {
-        $('.dropify').dropify();
-        var drEvent = $('#dropify-event').dropify();
-        drEvent.on('dropify.beforeClear', function(event, element) {
-            return confirm("Do you really want to delete \"" + element.file.name + "\" ?");
-        });
-        drEvent.on('dropify.afterClear', function(event, element) {
-            alert('File deleted');
-        });
-        $('.dropify-fr').dropify({
-            messages: {
-                default: 'Glissez-dÃ©posez un fichier ici ou cliquez',
-                replace: 'Glissez-dÃ©posez un fichier ou cliquez pour remplacer',
-                remove: 'Supprimer',
-                error: 'DÃ©solÃ©, le fichier trop volumineux'
-            }
-        });
+
+    $(document).on('click', '#removePropImgRow', function() {
+        $(this).closest('#inputPropImgRow').remove();
     });
+
+    ClassicEditor
+            .create( document.querySelector( '#description' ) )
+            .catch( error => {
+                console.error( error );
+            } );
+
 </script>
 @endsection

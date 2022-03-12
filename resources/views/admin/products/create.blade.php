@@ -1,13 +1,11 @@
 @extends('admin.layouts.app')
 @section('style')
-
 <style>
     #removePropImgRow {
         padding: 12px;
         margin-left: 3px;
     }
 </style>
-
 @endsection
 @section('content')
 @include('admin.inc.validation_message')
@@ -44,6 +42,8 @@
                                     {{ Form::text('price','',['class' => 'form-control']) }}
                                 </div>
                             </div>
+
+                            
                             <div class="row">
                                 <div class="col-md-6">
                                     <label class="form-label">Category</label>
@@ -70,6 +70,13 @@
                                 </div>
                             </div>
                             <div class="row">
+                                <div class="col-md-12">
+                                <label class="form-label">Description</label>
+                                {{ Form::textarea('description','',['rows' => 4,'id' => 'description', 'class' => 'form-control']) }}               
+                                </div>
+
+                            </div>
+                            <div class="row">
                                 <div class="col-md-6">
                                     <h3 class="panel-title"><strong> Images</strong></h3><br /><br />
                                 </div>
@@ -82,7 +89,7 @@
 
                                         <button id="addPropertyImgeRow" type="button" class="btn btn-primary btn-info">Add Row</button>
 
-                                        <input type="file" name="image" class="form-control">
+                                        <input type="file" name="image[]" class="form-control">
                                         <div id="newPropImgRow"></div>
                                     </div>
                                 </div>
@@ -117,5 +124,12 @@
     $(document).on('click', '#removePropImgRow', function() {
         $(this).closest('#inputPropImgRow').remove();
     });
+
+    ClassicEditor
+            .create( document.querySelector( '#description' ) )
+            .catch( error => {
+                console.error( error );
+            } );
+
 </script>
 @endsection
