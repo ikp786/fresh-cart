@@ -8,13 +8,13 @@
 <div class="body d-flex py-3">
     <div class="container-xxl">
 
-        <div class="row g-3 mb-3 row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-2 row-cols-xl-4">
+        <!-- <div class="row g-3 mb-3 row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-2 row-cols-xl-4">
             <div class="col">
                 <div class="alert-success alert mb-0">
                     <div class="d-flex align-items-center">
                         <div class="avatar rounded no-thumbnail bg-success text-light"><i class="fa fa-dollar fa-lg"></i></div>
                         <div class="flex-fill ms-3 text-truncate">
-                            <div class="h6 mb-0">Revenue</div>
+                            <div class="h6 mb-0">Total Order</div>
                             <span class="small">$18,925</span>
                         </div>
                     </div>
@@ -25,7 +25,7 @@
                     <div class="d-flex align-items-center">
                         <div class="avatar rounded no-thumbnail bg-danger text-light"><i class="fa fa-credit-card fa-lg"></i></div>
                         <div class="flex-fill ms-3 text-truncate">
-                            <div class="h6 mb-0">Expense</div>
+                            <div class="h6 mb-0">Total User</div>
                             <span class="small">$11,024</span>
                         </div>
                     </div>
@@ -36,7 +36,7 @@
                     <div class="d-flex align-items-center">
                         <div class="avatar rounded no-thumbnail bg-warning text-light"><i class="fa fa-smile-o fa-lg"></i></div>
                         <div class="flex-fill ms-3 text-truncate">
-                            <div class="h6 mb-0">Happy Clients</div>
+                            <div class="h6 mb-0">Total Driver</div>
                             <span class="small">8,925</span>
                         </div>
                     </div>
@@ -47,15 +47,16 @@
                     <div class="d-flex align-items-center">
                         <div class="avatar rounded no-thumbnail bg-info text-light"><i class="fa fa-shopping-bag" aria-hidden="true"></i></div>
                         <div class="flex-fill ms-3 text-truncate">
-                            <div class="h6 mb-0">New StoreOpen</div>
+                            <div class="h6 mb-0">Total Product</div>
                             <span class="small">8,925</span>
                         </div>
                     </div>
                 </div>
             </div>
-        </div><!-- Row end  -->
+        </div> -->
+        <!-- Row end  -->
 
-        <div class="row g-3">
+        <!-- <div class="row g-3">
             <div class="col-lg-12 col-md-12">
                 <div class="tab-filter d-flex align-items-center justify-content-between mb-3 flex-wrap">
                     <ul class="nav nav-tabs tab-card tab-body-header rounded  d-inline-flex w-sm-100">
@@ -191,7 +192,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div> <!-- row end -->
+                        </div>
                     </div>
                     <div class="tab-pane fade" id="summery-week">
                         <div class="row g-3 mb-4 row-deck">
@@ -312,7 +313,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div> <!-- row end -->
+                        </div>
                     </div>
                     <div class="tab-pane fade" id="summery-month">
                         <div class="row g-3 mb-4 row-deck">
@@ -433,7 +434,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div> <!-- row end -->
+                        </div>
                     </div>
                     <div class="tab-pane fade" id="summery-year">
                         <div class="row g-3 mb-4 row-deck">
@@ -554,13 +555,13 @@
                                     </div>
                                 </div>
                             </div>
-                        </div> <!-- row end -->
+                        </div>
                     </div>
                 </div>
             </div>
-        </div><!-- Row end  -->
+        </div> -->
 
-        <div class="row g-3 mb-3">
+        <!-- <div class="row g-3 mb-3">
             <div class="col-xl-12">
                 <div class="card">
                     <div class="card-header py-3 d-flex justify-content-between align-items-center bg-transparent border-bottom-0">
@@ -571,9 +572,9 @@
                     </div>
                 </div>
             </div>
-        </div><!-- Row end  -->
+        </div> -->
 
-        <div class="row g-3 mb-3">
+        <!-- <div class="row g-3 mb-3">
             <div class="col-xxl-8 col-xl-8">
                 <div class="card mb-3">
                     <div class="card-header py-3 d-flex justify-content-between align-items-center bg-transparent border-bottom-0">
@@ -624,9 +625,9 @@
                     </div>
                 </div>
             </div>
-        </div><!-- Row end  -->
+        </div> -->
 
-        <div class="row g-3 mb-3 row-deck">
+        <!-- <div class="row g-3 mb-3 row-deck">
             <div class="col-lg-4 col-md-12">
                 <div class="card">
                     <div class="card-header py-3 d-flex justify-content-between align-items-center bg-transparent border-bottom-0">
@@ -683,9 +684,9 @@
                     </div>
                 </div>
             </div>
-        </div><!-- Row end  -->
+        </div> -->
 
-        <div class="row g-3 mb-3">
+        <!-- <div class="row g-3 mb-3">
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header py-3 d-flex justify-content-between align-items-center bg-transparent border-bottom-0">
@@ -779,14 +780,9 @@
                     </div>
                 </div>
             </div>
-        </div><!-- Row end  -->
-
+        </div> -->
     </div>
 </div>
-
 @endsection
-
-
 @section('script')
-
 @endsection

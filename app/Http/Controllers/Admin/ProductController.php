@@ -8,6 +8,8 @@ use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Models\Category;
 use App\Models\ProductImage;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -90,7 +92,8 @@ class ProductController extends Controller
     {
         $title        = 'products';
         $categories   = Category::pluck('name', 'id');
-        $products     = Product::find($id);
+        $products     = Product::with('allImages')->find($id);
+        
         $data         = compact('title', 'categories','products');
         return view('admin.products.edit', $data);
     }
@@ -102,9 +105,28 @@ class ProductController extends Controller
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateProductRequest $request, Product $product)
+    public function update(UpdateProductRequest $request, Product $product, $id)
     {
-        //
+        try {
+            $products      = Product::find($id);
+            $products->fill($request->all());
+            $products->save();
+
+            if ($request->has('image')) {
+                foreach ($request->file('image') as $images_data) {
+                    $image_name = time() . '_' . rand(1111, 9999) . '_' . $products->id . '.' . $images_data->getClientOriginalExtension();
+                    $images_data->storeAs('product_images', $image_name, 'public');
+                    $product_image = new ProductImage();
+                    $product_image->product_id    = $products->id;
+                    $product_image->image        = $image_name;
+                    $product_image->save();
+                }
+            }
+            return redirect()->route('admin.products.index')->withSuccess('Product update success.');
+        } catch (\Throwable $e) {
+            \DB::rollback();
+            return redirect()->back()->with('Failed', $e->getMessage() . ' on line ' . $e->getLine(), 400);
+        }
     }
 
     /**
@@ -116,5 +138,19 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
         //
+    }
+
+    public function deleteProductImage(Request $request){
+        if (request()->ajax()) {
+            $doc = ProductImage::findOrfail($request->id);
+            if (!empty($doc)) {
+                if (Storage::disk('public')->exists('product_images/' . $doc->image)) {
+                    Storage::disk('public')->delete('product_images/' . $doc->image);
+                }
+                $doc->delete();
+                return response()->json(['status' => true]);
+            }
+            return response()->json(['status' => false]);
+        }
     }
 }

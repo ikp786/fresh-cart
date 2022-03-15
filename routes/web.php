@@ -18,6 +18,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::fallback(function () {
+    return response()->json([
+        'ResponseCode'  => 404,
+        'status'        => False,
+        'message'       => 'URL not found as you looking'
+    ]);
+});
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -71,6 +79,7 @@ Route::group(['prefix' => 'admin'], function () {
                 Route::get('edit/{id}', 'edit')->name('admin.products.edit');
                 Route::PATCH('update/{id}', 'update')->name('admin.products.update');
                 Route::delete('destroy{id}', 'destroy')->name('admin.products.destroy');
+                Route::delete('products/delete-image', 'deleteProductImage')->name('admin.products.delete-product-image');
             });
         });
 

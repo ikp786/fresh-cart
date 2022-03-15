@@ -4,16 +4,16 @@
 
             <!-- header rightbar icon -->
             <div class="h-right d-flex align-items-center mr-5 mr-lg-0 order-1">
-                <div class="d-flex">
+                <!-- <div class="d-flex">
                     <a class="nav-link text-primary collapsed" href="help.html" title="Get Help">
                         <i class="icofont-info-square fs-5"></i>
                     </a>
-                </div>
+                </div> -->
                 <div class="dropdown zindex-popover">
-                    <a class="nav-link dropdown-toggle pulse" href="#" role="button" data-bs-toggle="dropdown">
+                    <!-- <a class="nav-link dropdown-toggle pulse" href="#" role="button" data-bs-toggle="dropdown">
                         <img src="{{asset('assets/admin/images/flag/GB.png')}}" alt="">
-                    </a>
-                    <div class="dropdown-menu rounded-lg shadow border-0 dropdown-animation dropdown-menu-md-end p-0 m-0 mt-3">
+                    </a> -->
+                    <!-- <div class="dropdown-menu rounded-lg shadow border-0 dropdown-animation dropdown-menu-md-end p-0 m-0 mt-3">
                         <div class="card border-0">
                             <ul class="list-unstyled py-2 px-3">
                                 <li>
@@ -33,9 +33,9 @@
                                 </li>
                             </ul>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
-                <div class="dropdown notifications">
+                <!-- <div class="dropdown notifications">
                     <a class="nav-link dropdown-toggle pulse" href="#" role="button" data-bs-toggle="dropdown">
                         <i class="icofont-alarm fs-5"></i>
                         <span class="pulse-ring"></span>
@@ -111,11 +111,10 @@
                             <a class="card-footer text-center border-top-0" href="#"> View all notifications</a>
                         </div>
                     </div>
-                </div>
+                </div> -->
                 <div class="dropdown user-profile ml-2 ml-sm-3 d-flex align-items-center zindex-popover">
                     <div class="u-info me-2">
-                        <p class="mb-0 text-end line-height-sm "><span class="font-weight-bold">John Quinn</span></p>
-                        <small>Admin Profile</small>
+                        <p class="mb-0 text-end line-height-sm "><span class="font-weight-bold">{{auth()->user()->name}}</span></p>
                     </div>
                     <a class="nav-link dropdown-toggle pulse p-0" href="#" role="button" data-bs-toggle="dropdown" data-bs-display="static">
                         <img class="avatar lg rounded-circle img-thumbnail" src="{{asset('assets/admin/images/profile_av.svg')}}" alt="profile">
@@ -126,8 +125,8 @@
                                 <div class="d-flex py-1">
                                     <img class="avatar rounded-circle" src="{{asset('assets/admin/images/profile_av.svg')}}" alt="profile">
                                     <div class="flex-fill ms-3">
-                                        <p class="mb-0"><span class="font-weight-bold">John Quinn</span></p>
-                                        <small class="">Johnquinn@gmail.com</small>
+                                        <p class="mb-0"><span class="font-weight-bold">{{auth()->user()->name}}</span></p>
+                                        <small class="">{{auth()->user()->email}}</small>
                                     </div>
                                 </div>
 
@@ -136,8 +135,8 @@
                                 </div>
                             </div>
                             <div class="list-group m-2 ">
-                                <a href="admin-profile.html" class="list-group-item list-group-item-action border-0 "><i class="icofont-ui-user fs-5 me-3"></i>Profile Page</a>
-                                <a href="order-invoices.html" class="list-group-item list-group-item-action border-0 "><i class="icofont-file-text fs-5 me-3"></i>Order Invoices</a>
+                                <!-- <a href="admin-profile.html" class="list-group-item list-group-item-action border-0 "><i class="icofont-ui-user fs-5 me-3"></i>Profile Page</a> -->
+                                <!-- <a href="order-invoices.html" class="list-group-item list-group-item-action border-0 "><i class="icofont-file-text fs-5 me-3"></i>Order Invoices</a> -->
                                 <a href="{{route('admin.logout')}}" class="list-group-item list-group-item-action border-0 "><i class="icofont-logout fs-5 me-3"></i>Signout</a>
                             </div>
                         </div>
