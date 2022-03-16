@@ -62,7 +62,7 @@ Route::group(['prefix' => 'admin'], function () {
                 Route::get('new', 'newOrderList')->name('admin.orders.new');
                 Route::get('old', 'oldOrderList')->name('admin.orders.old');
                 Route::post('orders/asign-driver', 'asignDriver')->name('admin.orders.asign-driver');
-                Route::get('orders/order-product/{id}', 'asignDriver')->name('admin.orders.order-product');
+                Route::get('orders/order-product/{id}', 'orderProduct')->name('admin.orders.order-product');
             });
         });
         

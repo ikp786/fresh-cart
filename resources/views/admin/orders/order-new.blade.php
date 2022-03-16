@@ -25,13 +25,13 @@
                                 <tr>
                                     <th>Order Id</th>
                                     <th>Username</th>
-                                    <!-- <th>Email</th>
-                                    <th>Mobile</th> -->
+                                    <th>Email</th>
+                                    <th>Mobile</th>
                                     <th>Order<br> Amount</th>
                                     <th>Payment<br> Method</th>                                    
                                     <th>Order <br> Status</th>
-                                    <!-- <th>Address</th>
-                                    <th>Pincode</th> -->
+                                    <th>Address</th>
+                                    <th>Pincode</th>
                                     <th>Order <br> Date</th>
                                     <th>Asign <br>   Driver</th>
                                 </tr>
@@ -39,17 +39,15 @@
                             <tbody>
                                 @forelse($orders as $val)                                
                                 <tr>
-                                    <td><strong>{{$val->order_number}}</strong></a></td>
+                                    <td><strong> <a href="{{route('admin.orders.order-product',$val->id)}}"> {{$val->order_number}}</a></strong></td>
                                     <td>{{$val->users->name}}</td>
-                                    <!-- <td>{{$val->users->email}}</td>
-                                    <td>{{$val->users->mobile}}</td> -->
+                                    <td>{{$val->users->email}}</td>
+                                    <td>{{$val->users->mobile}}</td>
                                     <td>{{$val->order_amount}}</td>
                                     <td>{{$val->payment_method}}</td>
-                                    <!-- <td>{{-- Form::select('driver_id', $drivers, $val->driver_id, ['class' => 'asign-driver ','id' => $val->id,'order_id'=>$val->id]) --}}</td> -->
-                                    
                                     <td>{{$val->order_delivery_status}}</td>
-                                    <!-- <td>{{isset($val->addresses->address) ? $val->addresses->address : ''}}</td>
-                                    <td>{{isset($val->addresses->pincode) ? $val->addresses->pincode : ''}}</td>                                     -->
+                                    <td>{{isset($val->addresses->address) ? $val->addresses->address : ''}}</td>
+                                    <td>{{isset($val->addresses->pincode) ? $val->addresses->pincode : ''}}</td>                                    
                                     <td> {{$val->created_at}} </td>
                                     <td>{{ Form::select('driver_id', $drivers, $val->driver_id,['id'=>$val->id,'order_id'=>$val->id, 'class'=>'asign-driver', 'placeholder' =>'asign driver']) }}</td>
                                 </tr>
@@ -68,7 +66,7 @@
 <script>
     $(document).ready(function() {
         $('.asign-driver').change(function() {
-            
+            alert('d')
             if (!confirm("Do you want Asign  driver")){
               return false;
           } 

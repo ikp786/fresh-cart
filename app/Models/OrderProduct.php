@@ -18,6 +18,6 @@ class OrderProduct extends Model
 
     function orders()
     {
-        
+        return $this->hasOne(Order::class,'id','order_id');
     }
 }

@@ -29,7 +29,8 @@ class OrderController extends Controller
 
     public function orderProduct($id)
     {
-        $orders     =  OrderProduct::where('order_id',$id)->with('orders')->get();
+        
+        $orders     =  OrderProduct::where('order_id',$id)->with('orders','orders.addresses')->get();        
         $title      =  'Orders';
         $data       =  compact('title', 'orders');
         return view('admin.orders.order-product', $data);

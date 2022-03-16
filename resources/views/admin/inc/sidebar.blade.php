@@ -39,15 +39,15 @@
                     <li><a class="ms-link" href="{{route('admin.products.create')}}">Add</a></li>                    
                 </ul>
             </li>
-            <!-- <li class="collapsed">
+            <li class="collapsed">
                 <a class="m-link" data-bs-toggle="collapse" data-bs-target="#customers-info" href="#">
-                    <i class="icofont-funky-man fs-5"></i> <span>Customers</span> <span class="arrow icofont-rounded-down ms-auto text-end fs-5"></span></a>
+                    <i class="icofont-funky-man fs-5"></i> <span>Orders</span> <span class="arrow icofont-rounded-down ms-auto text-end fs-5"></span></a>
                 
                 <ul class="sub-menu collapse" id="customers-info">
-                    <li><a class="ms-link" href="customers.html">Customers List</a></li>
-                    <li><a class="ms-link" href="customer-detail.html">Customers Details</a></li>
+                    <li><a class="ms-link" href="{{route('admin.orders.new')}}">New</a></li>
+                    <li><a class="ms-link" href="{{route('admin.orders.old')}}">Old</a></li>
                 </ul>
-            </li> -->
+            </li>
             <!-- <li class="collapsed">
                 <a class="m-link" data-bs-toggle="collapse" data-bs-target="#menu-sale" href="#">
                     <i class="icofont-sale-discount fs-5"></i> <span>Sales Promotion</span> <span class="arrow icofont-rounded-down ms-auto text-end fs-5"></span></a>

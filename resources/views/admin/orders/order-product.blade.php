@@ -23,20 +23,27 @@
                             <thead>
                                 <tr>
                                     <th>Order Id</th>
+                                    <th>Order Date</th>
                                     <th>Product Name</th>
+                                    <th>Product Description</th>
                                     <th>Product Quantity</th>
                                     <th>Product Amount</th>
-                                    <th>Order Date</th>
+                                    <th>Address</th>
+                                    <th>Pincode</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @forelse($orders as $val)
                                 <tr>
-                                    <td><strong>{{$val->order_number}}</strong></a></td>
+                                    <td><strong>{{$val->orders->order_number}}</strong></a></td>
+                                    <td> {{$val->created_at}} </td>
                                     <td>{{$val->product_name}}</td>
+                                    <td>{{$val->product_description}}</td>
                                     <td>{{$val->product_quantity}}</td>
                                     <td>{{$val->total_amount}}</td>
-                                    <td> {{$val->created_at}} </td>
+                                    <td>{{isset($val->orders->addresses->address) ? $val->orders->addresses->address : ''}}</td>
+                                    <td>{{isset($val->orders->addresses->pincode) ? $val->orders->addresses->pincode : ''}}</td>
+
                                 </tr>
                                 @empty
                                 @endforelse
