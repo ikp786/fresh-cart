@@ -12,7 +12,7 @@
                 <div class="card-header py-3 no-bg bg-transparent d-flex align-items-center px-0 justify-content-between border-bottom flex-wrap">
                     <span class="btn btn-primary py-2 px-5 text-uppercase btn-set-task w-sm-100">List</span>
                     <h3 class="fw-bold mb-0"></h3>
-                    <a href="{{route('admin.categories.create')}}" class="btn btn-primary py-2 px-5 text-uppercase btn-set-task w-sm-100">Add</a>
+                    <a href="{{route('admin.products.create')}}" class="btn btn-primary py-2 px-5 text-uppercase btn-set-task w-sm-100">Add</a>
                 </div>
             </div>
         </div> <!-- Row end  -->
@@ -34,19 +34,16 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @forelse($products as $val)
-                                
+                                @forelse($products as $val)                                
                                 <tr>
-                                @php $image = isset($val->images->image) ? $val->images->image : ''; @endphp
-                                
+                                @php $image = isset($val->images->image) ? $val->images->image : ''; @endphp                                
                                     <td><strong>{{$val->id}}</strong></a></td>
-                                    <td><img src="{{asset('storage/app/public/product_images/'.$image)}}" class="avatar lg rounded me-2" alt="image not found"><span> Oculus VR </span></td>
+                                    <td><img src="{{asset('storage/app/public/product_images/'.$image)}}" class="avatar lg rounded me-2" alt="image not found"></td>
                                     <td>{{$val->name}}</td>
                                     <td>{{$val->price}}</td>
                                     <td>{{isset($val->categories[0]->name) ? $val->categories[0]->name : ''}}</td>
                                     <td>{{$val->description}}</td>
-                                    <td>{{$val->status == 1 ? 'Published' : 'Unpublish'}}</td>
-                                    
+                                    <td>{{$val->status == 1 ? 'Published' : 'Unpublish'}}</td>                                    
                                     <td>
                                         <a class="btn-xs sharp me-1" href="{{ route('admin.products.edit',$val->id) }}"><i class="icofont-edit text-success"></i></a>
                                         {!! Form::open(['method' => 'DELETE','route' => ['admin.products.destroy', $val->id],'style'=>'display:inline']) !!}<button onclick="return confirm('Are you sure to delete Category?')" class="delete btn-xs sharp" type="submit"><i class="icofont-ui-delete text-danger"></i> </button>
@@ -56,7 +53,6 @@
                                 </tr>
                                 @empty
                                 @endforelse
-
                             </tbody>
                         </table>
                     </div>

@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\DeliveryBoyController;
+use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\ProductController;
 use Illuminate\Support\Facades\Route;
 
@@ -50,6 +51,21 @@ Route::group(['prefix' => 'admin'], function () {
                 Route::get('index', 'userList')->name('admin.users.index');
             });
         });
+
+        /*
+|--------------------------------------------------------------------------
+| ORDER
+|--------------------------------------------------------------------------
+*/
+        Route::controller(OrderController::class)->group(function () {
+            Route::group(['prefix' => 'orders'], function () {
+                Route::get('new', 'newOrderList')->name('admin.orders.new');
+                Route::get('old', 'oldOrderList')->name('admin.orders.old');
+                Route::post('orders/asign-driver', 'asignDriver')->name('admin.orders.asign-driver');
+                Route::get('orders/order-product/{id}', 'asignDriver')->name('admin.orders.order-product');
+            });
+        });
+        
         /*
 |--------------------------------------------------------------------------
 | CATEGORIES CREATE STORE DELETE UPDATE EDIT 

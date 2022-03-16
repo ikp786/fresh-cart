@@ -14,7 +14,20 @@ return new class extends Migration
     public function up()
     {
         Schema::create('orders', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id');
+            $table->string('order_number');
+            $table->decimal('order_amount', 8, 2);
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('driver_id')->nullable();
+            $table->string('mobile',13);
+            $table->string('email');
+            $table->string('txn_id')->nullable();
+            $table->enum('payment_method', ['Cod', 'Online'])->nullable()->comment('cod=> cash on delivery, online => payment gateway');
+            $table->string('payment_status')->default('Pending');
+            $table->enum('order_delivery_status', ['Pending', 'Deliver'])->default('Pending');
+            $table->enum('driver_payment_type', ['Cash', 'Online'])->nullable();
+            $table->foreign('driver_id')->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
         });
     }

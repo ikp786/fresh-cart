@@ -13,6 +13,7 @@
  <script src="{{asset('assets/admin/plugin/cropper/cropper-init.js')}}"></script>
  <script src="{{asset('assets/admin/plugin/cropper/cropper.min.js')}}"></script>
  <script src="{{asset('assets/admin/plugin/cropper/cropper.min.js')}}"></script>
+ <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
  
  <script>

@@ -34,7 +34,7 @@
                                 @forelse($categories as $val)
                                 <tr>
                                     <td><strong>{{$val->id}}</strong></a></td>
-                                    <td><img src="{{asset('storage/categories/'.$val->image)}}" class="avatar lg rounded me-2" alt="profile-image"><span> Oculus VR </span></td>
+                                    <td><img src="{{asset('storage/app/public/categories/'.$val->image)}}" class="avatar lg rounded me-2" alt="profile-image"><span> Oculus VR </span></td>
                                     <td>{{$val->name}}</td>
                                     <td>{{$val->status == 1 ? 'Publish' : 'Unpublish'}}</td>
                                     <td>
@@ -46,7 +46,6 @@
                                 </tr>
                                 @empty
                                 @endforelse
-
                             </tbody>
                         </table>
                     </div>
@@ -58,35 +57,6 @@
 @endsection
 @section('script')
 <script>
-    $(document).ready(function() {
-        //Ch-editer
-        ClassicEditor
-            .create(document.querySelector('#editor'))
-            .catch(error => {
-                console.error(error);
-            });
-        //Deleterow
-        $("#tbproduct").on('click', '.deleterow', function() {
-            $(this).closest('tr').remove();
-        });
-    });
-    $(function() {
-        $('.dropify').dropify();
-        var drEvent = $('#dropify-event').dropify();
-        drEvent.on('dropify.beforeClear', function(event, element) {
-            return confirm("Do you really want to delete \"" + element.file.name + "\" ?");
-        });
-        drEvent.on('dropify.afterClear', function(event, element) {
-            alert('File deleted');
-        });
-        $('.dropify-fr').dropify({
-            messages: {
-                default: 'Glissez-dÃ©posez un fichier ici ou cliquez',
-                replace: 'Glissez-dÃ©posez un fichier ou cliquez pour remplacer',
-                remove: 'Supprimer',
-                error: 'DÃ©solÃ©, le fichier trop volumineux'
-            }
-        });
-    });
+   
 </script>
 @endsection
