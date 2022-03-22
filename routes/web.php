@@ -28,7 +28,7 @@ Route::fallback(function () {
 });
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('admin.login');
 });
 
 Route::group(['prefix' => 'admin'], function () {

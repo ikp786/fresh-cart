@@ -24,6 +24,7 @@
                             <thead>
                                 <tr>
                                     <th>Order Id</th>
+                                    <th>Order <br> Date</th>
                                     <th>Username</th>
                                     <th>Email</th>
                                     <th>Mobile</th>
@@ -31,8 +32,7 @@
                                     <th>Payment<br> Method</th>                                    
                                     <th>Order <br> Status</th>
                                     <th>Address</th>
-                                    <th>Pincode</th>
-                                    <th>Order <br> Date</th>
+                                    <th>Pincode</th>                                    
                                     <th>Asign <br>   Driver</th>
                                 </tr>
                             </thead>
@@ -40,6 +40,7 @@
                                 @forelse($orders as $val)                                
                                 <tr>
                                     <td><strong> <a href="{{route('admin.orders.order-product',$val->id)}}"> {{$val->order_number}}</a></strong></td>
+                                    <td> {{$val->created_at}} </td>
                                     <td>{{$val->users->name}}</td>
                                     <td>{{$val->users->email}}</td>
                                     <td>{{$val->users->mobile}}</td>
@@ -47,8 +48,7 @@
                                     <td>{{$val->payment_method}}</td>
                                     <td>{{$val->order_delivery_status}}</td>
                                     <td>{{isset($val->addresses->address) ? $val->addresses->address : ''}}</td>
-                                    <td>{{isset($val->addresses->pincode) ? $val->addresses->pincode : ''}}</td>                                    
-                                    <td> {{$val->created_at}} </td>
+                                    <td>{{isset($val->addresses->pincode) ? $val->addresses->pincode : ''}}</td>                                                                        
                                     <td>{{ Form::select('driver_id', $drivers, $val->driver_id,['id'=>$val->id,'order_id'=>$val->id, 'class'=>'asign-driver', 'placeholder' =>'asign driver']) }}</td>
                                 </tr>
                                 @empty
@@ -64,9 +64,9 @@
 @endsection
 @section('script')
 <script>
-    $(document).ready(function() {
+    $(document).ready(function() {        
         $('.asign-driver').change(function() {
-            alert('d')
+            
             if (!confirm("Do you want Asign  driver")){
               return false;
           } 

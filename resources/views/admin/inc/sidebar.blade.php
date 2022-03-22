@@ -48,16 +48,16 @@
                     <li><a class="ms-link" href="{{route('admin.orders.old')}}">Old</a></li>
                 </ul>
             </li>
-            <!-- <li class="collapsed">
+            <li class="collapsed">
                 <a class="m-link" data-bs-toggle="collapse" data-bs-target="#menu-sale" href="#">
-                    <i class="icofont-sale-discount fs-5"></i> <span>Sales Promotion</span> <span class="arrow icofont-rounded-down ms-auto text-end fs-5"></span></a>
+                    <i class="icofont-sale-discount fs-5"></i> <span>Report</span> <span class="arrow icofont-rounded-down ms-auto text-end fs-5"></span></a>
                 
                 <ul class="sub-menu collapse" id="menu-sale">
                     <li><a class="ms-link" href="coupons-list.html">Coupons List</a></li>
                     <li><a class="ms-link" href="coupon-add.html">Coupons Add</a></li>
                     <li><a class="ms-link" href="coupon-edit.html">Coupons Edit</a></li>
                 </ul>
-            </li> -->
+            </li>
             <!-- <li class="collapsed">
                 <a class="m-link" data-bs-toggle="collapse" data-bs-target="#menu-inventory" href="#">
                     <i class="icofont-chart-histogram fs-5"></i> <span>Inventory</span> <span class="arrow icofont-rounded-down ms-auto text-end fs-5"></span></a>

@@ -18,7 +18,7 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-body">
-                        <table id="myDataTables" class="table table-hover align-middle mb-0" style="width: 100%;">
+                        <table id="myDataTable" class="table table-hover align-middle mb-0" style="width: 100%;">
                             <thead>
                                 <tr>
                                     <th>Order Id</th>
