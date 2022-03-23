@@ -66,7 +66,7 @@ class ProductController extends Controller
             return redirect()->route('admin.products.index')->withSuccess('Product added success.');
         } catch (\Throwable $e) {
             \DB::rollback();
-            return redirect()->back()->with('Failed', $e->getMessage() . ' on line ' . $e->getLine(), 400);
+            return redirect()->back()->with('Failed', $e->getMessage() . ' on line ' . $e->getLine());
         }
     }
 
@@ -124,7 +124,7 @@ class ProductController extends Controller
             return redirect()->route('admin.products.index')->withSuccess('Product update success.');
         } catch (\Throwable $e) {
             \DB::rollback();
-            return redirect()->back()->with('Failed', $e->getMessage() . ' on line ' . $e->getLine(), 400);
+            return redirect()->back()->with('Failed', $e->getMessage() . ' on line ' . $e->getLine());
         }
     }
 

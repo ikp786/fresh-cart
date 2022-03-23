@@ -6,10 +6,39 @@ use App\Http\Controllers\Controller;
 use App\Models\DailyReport;
 use App\Http\Requests\StoreDailyReportRequest;
 use App\Http\Requests\UpdateDailyReportRequest;
+use App\Models\Order;
+use App\Models\OrderProduct;
 use App\Models\Product;
+use Carbon\Carbon;
+use DB;
 
 class ReportController extends Controller
 {
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function indexDailyOrderReport()
+    {
+        $title    = 'Report';
+        $reports  = OrderProduct::whereDate('created_at', '=', Carbon::yesterday())->select(
+            "id",
+            "product_name",
+            "product_id",
+            "created_at",
+            DB::raw("SUM(product_quantity_phav) as product_quantity_phav"),
+            DB::raw("SUM(product_quantity_half_kg) as product_quantity_half_kg"),
+            DB::raw("SUM(product_quantity_kg) as product_quantity_kg")
+        )->groupBy("product_id")
+            ->get();
+        $data     = compact('title', 'reports');
+        return view('admin.reports.daily-order-index', $data);
+    }
+
+
+
     /**
      * Display a listing of the resource.
      *
@@ -18,9 +47,24 @@ class ReportController extends Controller
     public function indexDailyPurchaseReport()
     {
         $title    = 'report';
-        $reports  = DailyReport::all();
-        $data     = compact('title','reports');
-        return view('admin.reports.daily-index',$data);
+        $reports  = DailyReport::get()->groupBy(function ($item) {
+            return $item->created_at->format('Y-m-d');
+        });
+        $data     = compact('title', 'reports');
+        return view('admin.reports.daily-index', $data);
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function editDailyPurchaseReport($date)
+    {
+        $title    = 'Report';
+        $reports  = DailyReport::whereDate('created_at', $date)->get();
+        $data     = compact('title', 'reports', 'date');
+        return view('admin.reports.daily-edit', $data);
     }
 
     /**
@@ -43,16 +87,28 @@ class ReportController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function storeDailyPurchaseReport(StoreDailyReportRequest $request)
-    {        
-        foreach ($request->product_id as $key => $value) {
-            $daily_reports                           = new DailyReport();
-            $daily_reports->product_id               = $value;
-            $daily_reports->product_name             = $request->product_name[$value];
-            $daily_reports->product_buy_price        = $request->product_buy_price[$value];
-            $daily_reports->product_selling_price    = $request->product_selling_price[$value];
-            $daily_reports->save();
+    {
+        try {
+            $check_daily_report = DailyReport::whereDate('created_at', Carbon::today())->count();
+            if ($check_daily_report > 0) {
+                return redirect()->back()->with('Failed', 'Your today report already submited.');
+            }
+            foreach ($request->product_id as $key => $value) {
+                if ($request->product_buy_price[$value] != '') {
+                    $daily_reports                           = new DailyReport();
+                    $daily_reports->product_id               = $value;
+                    $daily_reports->product_name             = $request->product_name[$value];
+                    $daily_reports->product_buy_price        = $request->product_buy_price[$value];
+                    $daily_reports->product_selling_price    = $request->product_selling_price[$value];
+                    $daily_reports->save();
+                }
+            }
+
+            return redirect()->route('admin.daily.purchase.reports.index')->with('success', 'Daily Price Save successfully');
+        } catch (\Throwable $e) {
+            \DB::rollback();
+            return redirect()->back()->with('Failed', $e->getMessage() . ' on line ' . $e->getLine());
         }
-        return redirect()->route('admin.daily.purchase.reports.index')->with('success', 'Daily Price Save successfully');
     }
 
     /**

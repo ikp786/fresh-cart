@@ -5,14 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class DailyReport extends Model
+class Slider extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'product_id',
-        'product_name',
-        'product_buy_price',
-        'product_selling_price',
+        'title',
+        'image'
     ];
 }

@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\DeliveryBoyController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ReportController;
+use App\Http\Controllers\Admin\SliderController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -77,8 +78,10 @@ Route::group(['prefix' => 'admin'], function () {
         Route::controller(ReportController::class)->group(function () {
             Route::group(['prefix' => 'reports'], function () {
                 Route::get('daily-purchase-create', 'createDailyPurchaseReport')->name('admin.daily.purchase.reports.create');
+                Route::get('daily-purchase-edit/{date}', 'editDailyPurchaseReport')->name('admin.daily.purchase.reports.edit');
                 Route::get('daily-purchase-index', 'indexDailyPurchaseReport')->name('admin.daily.purchase.reports.index');
                 Route::post('daily-purchase-store', 'storeDailyPurchaseReport')->name('admin.daily.purchase.reports.store');
+                Route::get('daily-order-index', 'indexDailyOrderReport')->name('admin.daily.order.reports.index');
             });
         });
         /*
@@ -128,6 +131,23 @@ Route::group(['prefix' => 'admin'], function () {
                 Route::get('edit/{id}', 'edit')->name('admin.delivery-boys.edit');
                 Route::PATCH('update/{id}', 'update')->name('admin.delivery-boys.update');
                 Route::delete('destroy{id}', 'destroy')->name('admin.delivery-boys.destroy');
+            });
+        });
+
+
+        /*
+|--------------------------------------------------------------------------
+| SLIDER CREATE STORE DELETE UPDATE EDIT
+|--------------------------------------------------------------------------
+*/
+        Route::controller(SliderController::class)->group(function () {
+            Route::group(['prefix' => 'sliders'], function () {
+                Route::get('index', 'index')->name('admin.sliders.index');
+                Route::get('create', 'create')->name('admin.sliders.create');
+                Route::post('store', 'store')->name('admin.sliders.store');
+                Route::get('edit/{id}', 'edit')->name('admin.sliders.edit');
+                Route::PATCH('update/{id}', 'update')->name('admin.sliders.update');
+                Route::delete('destroy{id}', 'destroy')->name('admin.sliders.destroy');
             });
         });
     });

@@ -11,6 +11,11 @@
     <link rel="icon" href="{{asset('assets/admin/favicon.ico')}}" type="image/x-icon"> <!-- Favicon-->
 
     @include('admin.inc.style')
+    <style>
+        .tawk-min-container {
+    display: none !important;
+}
+    </style>
     @yield('style')
 </head>
 
