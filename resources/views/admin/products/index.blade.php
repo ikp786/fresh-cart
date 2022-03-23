@@ -26,7 +26,9 @@
                                     <th>Id</th>
                                     <th>Image</th>
                                     <th>Name</th>
-                                    <th>Price</th>
+                                    <th>Pav Price</th>
+                                    <th>Half KG Price</th>
+                                    <th>KG Price</th>
                                     <th>Category</th>
                                     <th>Description</th>
                                     <th>Status</th>
@@ -34,14 +36,16 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @forelse($products as $val)                                
+                                @forelse($products as $val)                                                                
                                 <tr>
                                 @php $image = isset($val->images->image) ? $val->images->image : ''; @endphp                                
                                     <td><strong>{{$val->id}}</strong></a></td>
                                     <td><img src="{{asset('storage/app/public/product_images/'.$image)}}" class="avatar lg rounded me-2" alt="image not found"></td>
                                     <td>{{$val->name}}</td>
-                                    <td>{{$val->price}}</td>
-                                    <td>{{isset($val->categories[0]->name) ? $val->categories[0]->name : ''}}</td>
+                                    <td>{{$val->pav_price}}</td>
+                                    <td>{{$val->half_kg_price}}</td>
+                                    <td>{{$val->kg_price}}</td>
+                                    <td>{{isset($val->categories->name) ? $val->categories->name : ''}}</td>
                                     <td>{{$val->description}}</td>
                                     <td>{{$val->status == 1 ? 'Published' : 'Unpublish'}}</td>                                    
                                     <td>

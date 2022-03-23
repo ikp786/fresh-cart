@@ -12,7 +12,7 @@
                 <div class="card-header py-3 no-bg bg-transparent d-flex align-items-center px-0 justify-content-between border-bottom flex-wrap">
                     <span class="btn btn-primary py-2 px-5 text-uppercase btn-set-task w-sm-100">List</span>
                     <h3 class="fw-bold mb-0"></h3>
-                    <a href="{{route('admin.categories.create')}}" class="btn btn-primary py-2 px-5 text-uppercase btn-set-task w-sm-100">Add</a>
+                    <a href="{{route('admin.daily.purchase.reports.create')}}" class="btn btn-primary py-2 px-5 text-uppercase btn-set-task w-sm-100">Add</a>
                 </div>
             </div>
         </div> <!-- Row end  -->
@@ -24,25 +24,20 @@
                             <thead>
                                 <tr>
                                     <th>Id</th>
-                                    <th>Image</th>
-                                    <th>Title</th>
-                                    <th>Status</th>
-                                    <th>Action</th>
+                                    <th>Product Name</th>
+                                    <th>Buy Price</th>
+                                    <th>Selling Price</th>
+                                    <th>Created At</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @forelse($categories as $val)
+                                @forelse($reports as $val)
                                 <tr>
                                     <td><strong>{{$val->id}}</strong></a></td>
-                                    <td><img src="{{asset('storage/app/public/categories/'.$val->image)}}" class="avatar lg rounded me-2" alt="profile-image"></td>
-                                    <td>{{$val->name}}</td>
-                                    <td>{{$val->status == 1 ? 'Publish' : 'Unpublish'}}</td>
-                                    <td>
-                                        <a class="btn-xs sharp me-1" href="{{ route('admin.categories.edit',$val->id) }}"><i class="icofont-edit text-success"></i></a>
-                                        {!! Form::open(['method' => 'DELETE','route' => ['admin.categories.destroy', $val->id],'style'=>'display:inline']) !!}<button onclick="return confirm('Are you sure to delete Category?')" class="delete btn-xs sharp" type="submit"><i class="icofont-ui-delete text-danger"></i> </button>
-                                        {!! Form::close() !!}
-                                    </td>
-                                    </td>
+                                    <td>{{$val->product_name}}</td>
+                                    <td>{{$val->product_buy_price}}</td>
+                                    <td>{{$val->product_selling_price}}</td>
+                                    <td>{{$val->created_at}}</td>
                                 </tr>
                                 @empty
                                 @endforelse
@@ -57,6 +52,5 @@
 @endsection
 @section('script')
 <script>
-   
 </script>
 @endsection

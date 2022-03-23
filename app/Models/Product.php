@@ -11,7 +11,9 @@ class Product extends Model
 
     protected $fillable = [
         'name',
-        'price',
+        'pav_price',
+        'half_kg_price',
+        'kg_price',
         'category_id',
         'description',
         'status'
@@ -19,7 +21,7 @@ class Product extends Model
 
     public function categories()
     {
-        return $this->hasOne(Category::class,'id','product_id');
+        return $this->hasOne(Category::class,'id','category_id');
     }
 
     public function images()

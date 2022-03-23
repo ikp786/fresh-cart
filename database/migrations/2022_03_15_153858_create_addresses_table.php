@@ -17,7 +17,7 @@ return new class extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('order_id');
             $table->unsignedBigInteger('user_id');
-            $table->enum('type', ['billing', 'shipping']);
+            $table->enum('type', ['billing', 'shipping'])->default('shipping');
             $table->string('name', 50);
             $table->string('mobile', 15);
             $table->string('email', 100);

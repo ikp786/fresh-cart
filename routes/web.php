@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\DeliveryBoyController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\ReportController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -65,7 +66,21 @@ Route::group(['prefix' => 'admin'], function () {
                 Route::get('orders/order-product/{id}', 'orderProduct')->name('admin.orders.order-product');
             });
         });
-        
+
+
+
+        /*
+|--------------------------------------------------------------------------
+| REPORT
+|--------------------------------------------------------------------------
+*/
+        Route::controller(ReportController::class)->group(function () {
+            Route::group(['prefix' => 'reports'], function () {
+                Route::get('daily-purchase-create', 'createDailyPurchaseReport')->name('admin.daily.purchase.reports.create');
+                Route::get('daily-purchase-index', 'indexDailyPurchaseReport')->name('admin.daily.purchase.reports.index');
+                Route::post('daily-purchase-store', 'storeDailyPurchaseReport')->name('admin.daily.purchase.reports.store');
+            });
+        });
         /*
 |--------------------------------------------------------------------------
 | CATEGORIES CREATE STORE DELETE UPDATE EDIT 

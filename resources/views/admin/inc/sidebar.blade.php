@@ -51,11 +51,10 @@
             <li class="collapsed">
                 <a class="m-link" data-bs-toggle="collapse" data-bs-target="#menu-sale" href="#">
                     <i class="icofont-sale-discount fs-5"></i> <span>Report</span> <span class="arrow icofont-rounded-down ms-auto text-end fs-5"></span></a>
-                
                 <ul class="sub-menu collapse" id="menu-sale">
-                    <li><a class="ms-link" href="coupons-list.html">Coupons List</a></li>
-                    <li><a class="ms-link" href="coupon-add.html">Coupons Add</a></li>
-                    <li><a class="ms-link" href="coupon-edit.html">Coupons Edit</a></li>
+                    <li><a class="ms-link" href="{{route('admin.daily.purchase.reports.index')}}">Daily Purchase Report</a></li>
+                    <li><a class="ms-link" href="#">Report 2</a></li>
+                    <li><a class="ms-link" href="#">Report 3</a></li>
                 </ul>
             </li>
             <!-- <li class="collapsed">

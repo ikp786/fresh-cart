@@ -16,7 +16,9 @@ return new class extends Migration
         Schema::create('products', function (Blueprint $table) {            
             $table->bigIncrements('id');
             $table->string('name');
-            $table->decimal('price', 8, 2);
+            $table->decimal('pav_price', 8, 2)->default(0.00);
+            $table->decimal('half_kg_price', 8, 2)->default(0.00);
+            $table->decimal('kg_price', 8, 2)->default(0.00);
             $table->unsignedBigInteger('category_id');
             $table->integer('status')->nullable();
             $table->longText('description');

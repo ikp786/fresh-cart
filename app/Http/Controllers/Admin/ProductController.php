@@ -20,8 +20,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products   = Product::with('images','categories')->get();
-        
+        $products   = Product::with('images','categories')->get();     
         
         $title      = 'products';
         $data       = compact('title', 'products');

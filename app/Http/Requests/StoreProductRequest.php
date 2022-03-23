@@ -25,7 +25,9 @@ class StoreProductRequest extends FormRequest
     {
         return [
             'name'           => 'required',
-            'price'          => 'required|numeric|digits_between:1,8',
+            'pav_price'      => 'required|numeric|digits_between:1,8',
+            'half_kg_price'  => 'required|numeric|digits_between:1,8',
+            'kg_price'       => 'required|numeric|digits_between:1,8',
             'category_id'    => 'required|exists:categories,id',
             'description'    => 'required',
             'image'          => 'required|array|min:3',

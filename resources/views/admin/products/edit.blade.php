@@ -38,8 +38,20 @@
                                 {{ Form::text('name',$products->name,['class' => 'form-control']) }}
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label">Price</label>
-                                {{ Form::text('price',$products->price,['class' => 'form-control']) }}
+                                <label class="form-label">Pav Price</label>
+                                {{ Form::text('pav_price',$products->pav_price,['class' => 'form-control']) }}
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label class="form-label">Half KG Price</label>
+                                {{ Form::text('half_kg_price',$products->half_kg_price,['class' => 'form-control']) }}
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">KG Price</label>
+                                {{ Form::text('kg_price',$products->kg_price,['class' => 'form-control']) }}
                             </div>
                         </div>
 
