@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Api\BaseController;
+use App\Http\Resources\UserProfileCollection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use App\Http\Resources\UserProfileCollection;
+// use App\Http\Resources\UserProfileCollection;
 use App\Models\User;
 use Auth;
+use Illuminate\Support\Facades\Storage;
 use Validator;
 
 class AuthController extends BaseController
@@ -19,19 +21,14 @@ class AuthController extends BaseController
 	}
 
 	// CREATE ACCOUNT API
-	public function create_account(Request $request)
+	public function userRegister(Request $request)
 	{
 		$error_message = 	[
-			'name.required'    	      		  => 'Name should be required',
-			'email.required'	              => 'Email should be required',
-			'email.unique'  	              => 'Email has been taken',
-			'password.required'            	  => 'Password should be required',
+			// 'mobile.unique'  	              => 'mobile has been already taken',
+			'mobile.required'            	  => 'Mobile should be required',
 		];
-
 		$rules = [
-			'name'                  	  => 'required|max:20',
-			'email'                       => 'required|email|unique:users,email',
-			'password'                    => 'required',
+			'mobile'                       => 'required|min:10|max:10',
 		];
 		$validator = Validator::make($request->all(), $rules, $error_message);
 
@@ -41,50 +38,104 @@ class AuthController extends BaseController
 
 		try {
 			\DB::beginTransaction();
-			$user = new User();
-			$user->fill($request->all());
-			$user->password = Hash::make($request->password);
-			$user->save();
+			// $user = new User();
+			// $user->fill($request->all());
+			// $user->password = Hash::make($request->password);
+			// $user->save();
+
+			$user = User::updateOrCreate(
+				$request->only('mobile')
+			);
+			Auth::loginUsingId($user->id);
+			$access_token = auth()->user()->createToken(auth()->user()->mobile)->accessToken;
 			\DB::commit();
-			return $this->sendSuccess('ACCOUNT CREATED SUCCESSFULLY');
+			return $this->sendSuccess('LOGGED IN SUCCESSFULLY', ['access_token' => $access_token, 'profile_data' => new UserProfileCollection(auth()->user())]);
 		} catch (\Throwable $e) {
 			\DB::rollback();
 			return $this->sendFailed($e->getMessage() . ' on line ' . $e->getLine(), 400);
 		}
 	}
 
-	public function login_account(Request $request)
+	public function getUserProfile()
+	{
+		return $this->sendSuccess('LOGGED IN SUCCESSFULLY', ['profile_data' => new UserProfileCollection(auth()->user())]);
+	}
+
+	public function sentRegisterOtp(Request $request)
 	{
 		$error_message = 	[
-			'email.required'    => 'Email address should be required',
-			'password.required' => 'Password should be required',
+			'mobile.required'  	=> 'Mobile address should be required',
 		];
 		$rules = [
-			'email'         	=> 'required',
-			'password'      	=> 'required',
+			'mobile'       		=> 'required',
 		];
 		$validator = Validator::make($request->all(), $rules, $error_message);
 		if ($validator->fails()) {
-			return $this->sendFailed($validator->errors()->all(), 200);
+			return $this->sendFailed($validator->errors()->first(), 200);
 		}
 		try {
-			if (auth()->attempt(['email' => $request->email, 'password' => $request->password])) {
-				\DB::beginTransaction();
-				auth()->user()->tokens->each(function ($token, $key) {
-					$token->delete();
-				});
-				$access_token = auth()->user()->createToken(auth()->user()->first_name)->accessToken;
-				auth()->user()->fill($request->only(['first_name']))->save();
-				\DB::commit();
-				return $this->sendSuccess('LOGGED IN SUCCESSFULLY', ['access_token' => $access_token, 'profile_data' => new UserProfileCollection(auth()->user())]);
-			} else {
-				return $this->sendFailed('WE COULD NOT FOUND ANY ACCOUNT', 200);
-			}
+
+			$verifaction_otp = rand(111111, 999999);
+			$email_data = ['verifaction_otp' => $verifaction_otp];
+			// \Mail::to($request->email_address)->send(new \App\Mail\LoginOtp($email_data));
+			return $this->sendSuccess('OTP SENT SUCCESSFULLY', ['verifaction_otp' => $verifaction_otp, 'mobile' => $request->mobile]);
 		} catch (\Throwable $e) {
-			\DB::rollback();
-			return $this->sendFailed($e->getMessage() . ' on line no. ' . $e->getLine(), 400);
+			return $this->sendFailed($e->getMessage() . ' on line ' . $e->getLine(), 400);
 		}
 	}
+
+	// UPDATE PROFILE
+	public function updateUserProfile(Request $request)
+	{
+		$user_details = auth()->user();
+		$error_message = 	[
+			'name.required'    	 => 'Name should be required',
+			'email.required'	 => 'Email address should be required',
+			'email.unique'  	 => 'Email address has been taken',
+			'profile_pic.mimes'  => 'Profile photo format jpg,jpeg,png',
+			'profile_pic.max'    => 'Profile photo max size 2 MB',
+			'dob.required'		 => 'Date Of Birth should be required.',
+			'dob.required'		 => 'Date Of Birth should be valid date format.'
+		];
+		$rules = [
+			'name'            => 'required|max:20',
+			'email'           => 'required|email',
+			'dob'			  => 'required|date',
+		];
+		if (!empty($request->profile_pic)) {
+			$rules['profile_pic'] = 'mimes:jpg,jpeg,png|max:2000';
+		}
+		$validator = Validator::make($request->all(), $rules, $error_message);
+		if ($validator->fails()) {
+			return $this->sendFailed(implode(", ", $validator->errors()->all()), 200);
+		}
+		$emailExist = User::where('id', '!=', auth()->user()->id)->where(['email' => $request->email])->count();
+		if ($emailExist > 0) {
+			return $this->sendFailed("Email address has been already taken", 200);
+		}
+		try {
+			if (!empty($request->file('profile_pic'))) {
+				if (Storage::disk('public')->exists('user_images/' . $user_details->user_pic_name)) {
+					Storage::disk('public')->delete('user_images/' . $user_details->user_pic_name);
+				}
+				$user_pic = time() . '_' . rand(1111, 9999) . '.' . $request->file('profile_pic')->getClientOriginalExtension();
+				$request->file('profile_pic')->storeAs('user_images', $user_pic, 'public');
+				$request['profile_pic'] = $user_pic;
+			}
+
+			\DB::beginTransaction();
+			$user_details->fill($request->all());
+			$user_details->profile_pic = $user_pic;
+			$user_details->save();
+			\DB::commit();
+			return $this->sendSuccess('PROFILE UPDATED SUCCESSFULLY', new UserProfileCollection($user_details));
+		} catch (\Throwable $e) {
+			\DB::rollback();
+			return $this->sendFailed($e->getMessage() . ' on line ' . $e->getLine(), 400);
+		}
+	}
+
+
 
 	public function forgot_password(Request $request)
 	{

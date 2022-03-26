@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\ProductController;
+use App\Http\Resources\UserProfileCollection;
+// use App\Http\Resources\ProfileCollection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,6 +18,56 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::fallback(function () {
+    return response()->json([
+        'ResponseCode'  => 404,
+        'status'        => False,
+        'message'       => 'URL not found as you looking'
+    ]);
+});
+
+/*
+        |--------------------------------------------------------------------------
+        | AUTHORISATION FAILED ROUTE
+        |--------------------------------------------------------------------------
+        */
+
+Route::get('login', [AuthController::class, 'unauthorized_access'])->name('login');
+
+/*
+        |--------------------------------------------------------------------------
+        | PRODUCT ROUTE
+        |--------------------------------------------------------------------------
+        */
+Route::controller(ProductController::class)->group(function () {
+    Route::get('get_category_list', 'getCategoryList');
+    Route::get('get_product_list', 'getProductList');
+    Route::post('get_search_product', 'getSearchProduct');
+    Route::get('get_product_detail/{id}', 'getProductDetails');
+    Route::post('add_to_cart', 'addToCart');
+});
+
+
+
+/*
+        |--------------------------------------------------------------------------
+        | AUTH REGISTER LOGIN SENT LOGIN OTP ROUTE
+        |--------------------------------------------------------------------------
+        */
+
+Route::controller(AuthController::class)->group(function () {
+    Route::post('user_register', 'userRegister');
+    Route::post('sent_register_otp', 'sentRegisterOtp');
+});
+
+/*
+        |--------------------------------------------------------------------------
+        | AUTHORISATION ROUTE
+        |--------------------------------------------------------------------------
+        */
+Route::middleware('auth:api')->group(function () {
+    Route::controller(AuthController::class)->group(function () {
+        Route::get('get_user_profile', 'getUserProfile');
+        Route::post('update_user_profile', 'updateUserProfile');
+    });
 });

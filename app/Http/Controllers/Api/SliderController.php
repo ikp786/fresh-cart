@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Api\BaseController;
 use App\Http\Resources\SplashScreen as ResourcesSplashScreen;
+use App\Models\Slider;
 use Illuminate\Http\Request;
 use App\Models\SplashScreen;
 use Validator;
@@ -14,9 +15,9 @@ class SliderController extends BaseController
     {
         try
         {   
-            $splashData = SplashScreen::get();
+            $sliders = Slider::get();
             if(!empty($splashData)){
-                return $this->sendSuccess('SLIDER DATA GET SUCCESSFULLY', new ResourcesSplashScreen($splashData)); 
+                return $this->sendSuccess('SLIDER DATA GET SUCCESSFULLY',$sliders); 
             }
         }
         catch (\Throwable $e)
