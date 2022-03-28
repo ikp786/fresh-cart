@@ -11,9 +11,15 @@ class Cart extends Model
 
     protected $fillable = [
         'product_id',
-        'user_id',
-        'amount',
-        'product_name',
-        'product_qty',
+        'user_id',        
+        'product_name',        
+        'product_quantity_kg',
+        'product_quantity_half_kg',
+        'product_quantity_phav',
+        'product_total_quantity',
+        'product_phav_amount',
+        'product_half_kg_amount',
+        'product_kg_amount',
+        'total_amount'
     ];
 }

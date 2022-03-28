@@ -26,10 +26,17 @@ class AddToCartRequest extends FormRequest
     public function rules()
     {
         return [
-            'product_id'          => 'required|exists:product,id',
-            'product_qty'         => 'required|integer'
+            'product_id'                => 'required|exists:products,id',
+            // 'product_quantity_phav'     => 'integer',
+            // 'product_quantity_half_kg'  => 'integer',
+            // 'product_quantity_kg'       => 'integer',
+
+            'product_quantity_phav' => 'required_if:product_quantity_half_kg,null|required_if:product_quantity_kg,null',
+            'product_quantity_half_kg' => 'required_if:product_quantity_phav,null|required_if:product_quantity_kg,null',
+            'product_quantity_kg' => 'required_if:product_quantity_phav,null|required_if:product_quantity_half_kg,null',
+
         ];
-    }
+    }   
 
     public function messags()
     {
@@ -49,3 +56,4 @@ class AddToCartRequest extends FormRequest
         ]));
     }
 
+}

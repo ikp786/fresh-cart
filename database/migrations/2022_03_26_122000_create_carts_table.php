@@ -16,10 +16,16 @@ return new class extends Migration
         Schema::create('carts', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('product_id');
+            $table->string('product_name')->nullable();
             $table->unsignedBigInteger('user_id');
-            $table->decimal('amount',8,2);
-            $table->string('product_name');
-            $table->integer('product_qty');
+            $table->string('product_quantity_phav')->default(0);
+            $table->string('product_quantity_half_kg')->default(0);
+            $table->string('product_quantity_kg')->default(0);
+            $table->string('product_total_quantity');            
+            $table->decimal('product_phav_amount', 8, 2)->default(0.00);
+            $table->decimal('product_half_kg_amount', 8, 2)->default(0.00);
+            $table->decimal('product_kg_amount', 8, 2)->default(0.00);
+            $table->decimal('total_amount', 8, 2);
             $table->foreign('product_id')->references('id')->on('products');
             $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();

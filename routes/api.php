@@ -44,7 +44,7 @@ Route::controller(ProductController::class)->group(function () {
     Route::get('get_product_list', 'getProductList');
     Route::post('get_search_product', 'getSearchProduct');
     Route::get('get_product_detail/{id}', 'getProductDetails');
-    Route::post('add_to_cart', 'addToCart');
+    
 });
 
 
@@ -70,4 +70,9 @@ Route::middleware('auth:api')->group(function () {
         Route::get('get_user_profile', 'getUserProfile');
         Route::post('update_user_profile', 'updateUserProfile');
     });
+    Route::controller(ProductController::class)->group(function () {
+    Route::post('add_to_cart', 'addToCart');
+    Route::get('delete_in_cart/{id}', 'deleteProdcutInCart');
+    Route::get('get_Cart_detail', 'getCartDetail');
+});
 });
