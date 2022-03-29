@@ -8,6 +8,7 @@ use App\Http\Resources\CartListCollection;
 use App\Http\Resources\ProductResource;
 use App\Models\Cart;
 use App\Models\Category;
+use App\Models\Offer;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
@@ -22,6 +23,20 @@ class ProductController extends BaseController
                 return $this->sendFailed('CATEGORY NOT FOUND', 200);
             }
             return $this->sendSuccess('CATEGORY GET SUCCESSFULLY', $cagetory_list);
+        } catch (\Throwable $e) {
+            return $this->sendFailed($e->getMessage() . ' on line ' . $e->getLine(), 400);
+        }
+    }
+
+    // OFFER API
+    public function getOfferList()
+    {
+        try {
+            $cagetory_list = Offer::OrderBy('id', 'desc')->get();
+            if (!isset($cagetory_list) || count($cagetory_list) == 0) {
+                return $this->sendFailed('OFFER NOT FOUND', 200);
+            }
+            return $this->sendSuccess('OFFER GET SUCCESSFULLY', $cagetory_list);
         } catch (\Throwable $e) {
             return $this->sendFailed($e->getMessage() . ' on line ' . $e->getLine(), 400);
         }

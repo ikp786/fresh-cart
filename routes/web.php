@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\DeliveryBoyController;
+use App\Http\Controllers\Admin\OfferController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ReportController;
@@ -102,7 +103,7 @@ Route::group(['prefix' => 'admin'], function () {
 
         /*
 |--------------------------------------------------------------------------
-| PRODUCTSL CREATE STORE DELETE UPDATE EDIT 
+| PRODUCTS CREATE STORE DELETE UPDATE EDIT 
 |--------------------------------------------------------------------------
 */
         Route::controller(ProductController::class)->group(function () {
@@ -116,6 +117,23 @@ Route::group(['prefix' => 'admin'], function () {
                 Route::delete('products/delete-image', 'deleteProductImage')->name('admin.products.delete-product-image');
             });
         });
+
+
+          /*
+|--------------------------------------------------------------------------
+| OFFERS CREATE STORE DELETE UPDATE EDIT 
+|--------------------------------------------------------------------------
+*/
+Route::controller(OfferController::class)->group(function () {
+    Route::group(['prefix' => 'offers'], function () {
+        Route::get('index', 'index')->name('admin.offers.index');
+        Route::get('create', 'create')->name('admin.offers.create');
+        Route::post('store', 'store')->name('admin.offers.store');
+        Route::get('edit/{id}', 'edit')->name('admin.offers.edit');
+        Route::PATCH('update/{id}', 'update')->name('admin.offers.update');
+        Route::delete('destroy{id}', 'destroy')->name('admin.offers.destroy');        
+    });
+});
 
 
         /*

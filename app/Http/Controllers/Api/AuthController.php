@@ -26,9 +26,12 @@ class AuthController extends BaseController
 		$error_message = 	[
 			// 'mobile.unique'  	              => 'mobile has been already taken',
 			'mobile.required'            	  => 'Mobile should be required',
+			'role.required'			 	  	  => 'User Type should be required',
+			'role.In'						  => 'User Type should be 1 OR 2',
 		];
 		$rules = [
-			'mobile'                       => 'required|min:10|max:10',
+			'mobile'                          => 'required|min:10|max:10',
+			'role'						      => 'required|In:2,3'
 		];
 		$validator = Validator::make($request->all(), $rules, $error_message);
 
@@ -42,9 +45,13 @@ class AuthController extends BaseController
 			// $user->fill($request->all());
 			// $user->password = Hash::make($request->password);
 			// $user->save();
+			// echo config('constant.ROLE.USER');die;
+			// echo $request->user_type;die;		
 
+			// $data      = $request->only('mobile','role');
+			// $data['role'] = $user_type;
 			$user = User::updateOrCreate(
-				$request->only('mobile')
+				$request->only('mobile', 'role')
 			);
 			Auth::loginUsingId($user->id);
 			$access_token = auth()->user()->createToken(auth()->user()->mobile)->accessToken;

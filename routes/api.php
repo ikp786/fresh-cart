@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Resources\UserProfileCollection;
 // use App\Http\Resources\ProfileCollection;
@@ -44,7 +45,6 @@ Route::controller(ProductController::class)->group(function () {
     Route::get('get_product_list', 'getProductList');
     Route::post('get_search_product', 'getSearchProduct');
     Route::get('get_product_detail/{id}', 'getProductDetails');
-    
 });
 
 
@@ -54,12 +54,10 @@ Route::controller(ProductController::class)->group(function () {
         | AUTH REGISTER LOGIN SENT LOGIN OTP ROUTE
         |--------------------------------------------------------------------------
         */
-
 Route::controller(AuthController::class)->group(function () {
     Route::post('user_register', 'userRegister');
     Route::post('sent_register_otp', 'sentRegisterOtp');
 });
-
 /*
         |--------------------------------------------------------------------------
         | AUTHORISATION ROUTE
@@ -71,8 +69,21 @@ Route::middleware('auth:api')->group(function () {
         Route::post('update_user_profile', 'updateUserProfile');
     });
     Route::controller(ProductController::class)->group(function () {
-    Route::post('add_to_cart', 'addToCart');
-    Route::get('delete_in_cart/{id}', 'deleteProdcutInCart');
-    Route::get('get_Cart_detail', 'getCartDetail');
-});
+        Route::post('add_to_cart', 'addToCart');
+        Route::get('delete_in_cart/{id}', 'deleteProdcutInCart');
+        Route::get('get_Cart_detail', 'getCartDetail');
+    });
+
+    /*
+        |--------------------------------------------------------------------------
+        | ORDER ROUTE
+        |--------------------------------------------------------------------------
+        */
+    Route::controller(OrderController::class)->group(function () {
+        Route::post('create_order', 'createOrder');
+        Route::get('get_user_order_list/{status}', 'getUserOrderList');
+        Route::get('get_user_order_detail/{id}', 'getUserOrderDetail');
+        Route::get('get_driver_order_list/{payment_method}', 'getDriverOrderList');
+        Route::get('get_driver_order_detail/{id}', 'getDriverOrderDetail');
+    });
 });
