@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Api\BaseController;
 use App\Http\Requests\AddToCartRequest;
 use App\Http\Resources\CartListCollection;
+use App\Http\Resources\OfferResource;
 use App\Http\Resources\ProductResource;
 use App\Models\Cart;
 use App\Models\Category;
@@ -32,11 +33,11 @@ class ProductController extends BaseController
     public function getOfferList()
     {
         try {
-            $cagetory_list = Offer::OrderBy('id', 'desc')->get();
-            if (!isset($cagetory_list) || count($cagetory_list) == 0) {
+            $offer_list  = Offer::where('status', 1)->with('products', 'products.images')->OrderBy('id', 'desc')->limit(1)->get();
+            if (!isset($offer_list) || count($offer_list) == 0) {
                 return $this->sendFailed('OFFER NOT FOUND', 200);
             }
-            return $this->sendSuccess('OFFER GET SUCCESSFULLY', $cagetory_list);
+            return $this->sendSuccess('OFFER GET SUCCESSFULLYY', OfferResource::collection($offer_list));
         } catch (\Throwable $e) {
             return $this->sendFailed($e->getMessage() . ' on line ' . $e->getLine(), 400);
         }
@@ -130,16 +131,15 @@ class ProductController extends BaseController
     }
 
     public function getCartDetail()
-    { {
-            try {
-                $get_cart_data  = Cart::where(['user_id' => auth()->user()->id])->get();
-                if (!isset($get_cart_data) || count($get_cart_data) == 0) {
-                    return $this->sendFailed('PRODUCT NOT FOUND IN CART', 200);
-                }
-                return $this->sendSuccess('CART DATA GET SUCCESSFULLY', CartListCollection::collection($get_cart_data));
-            } catch (\Throwable $e) {
-                return $this->sendFailed($e->getMessage() . ' on line ' . $e->getLine(), 400);
+    {
+        try {
+            $get_cart_data  = Cart::where(['user_id' => auth()->user()->id])->get();
+            if (!isset($get_cart_data) || count($get_cart_data) == 0) {
+                return $this->sendFailed('PRODUCT NOT FOUND IN CART', 200);
             }
+            return $this->sendSuccess('CART DATA GET SUCCESSFULLY', CartListCollection::collection($get_cart_data));
+        } catch (\Throwable $e) {
+            return $this->sendFailed($e->getMessage() . ' on line ' . $e->getLine(), 400);
         }
     }
 }

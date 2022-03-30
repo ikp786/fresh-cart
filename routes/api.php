@@ -42,6 +42,7 @@ Route::get('login', [AuthController::class, 'unauthorized_access'])->name('login
         */
 Route::controller(ProductController::class)->group(function () {
     Route::get('get_category_list', 'getCategoryList');
+    Route::get('get_offer_list', 'getOfferList');
     Route::get('get_product_list', 'getProductList');
     Route::post('get_search_product', 'getSearchProduct');
     Route::get('get_product_detail/{id}', 'getProductDetails');
@@ -85,5 +86,7 @@ Route::middleware('auth:api')->group(function () {
         Route::get('get_user_order_detail/{id}', 'getUserOrderDetail');
         Route::get('get_driver_order_list/{payment_method}', 'getDriverOrderList');
         Route::get('get_driver_order_detail/{id}', 'getDriverOrderDetail');
+        Route::post('create_feedback', 'createFeedback');
+        Route::post('order_deliver_by_driver', 'orderDeliverByDriver');
     });
 });

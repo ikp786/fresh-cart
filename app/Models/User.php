@@ -66,8 +66,18 @@ class User extends Authenticatable
         return $this->hasMany(Order::class, 'driver_id');
     }
 
+    public function driverOrder()
+    {
+        return $this->hasOne(Order::class, 'driver_id');
+    }
+
     public function address()
     {
         return $this->hasMany(Address::class);
+    }
+
+    public function ratting()
+    {
+        return $this->hasMany(Ratting::class);
     }
 }

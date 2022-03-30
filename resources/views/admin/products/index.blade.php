@@ -52,8 +52,7 @@
                                         <a class="btn-xs sharp me-1" href="{{ route('admin.products.edit',$val->id) }}"><i class="icofont-edit text-success"></i></a>
                                         {!! Form::open(['method' => 'DELETE','route' => ['admin.products.destroy', $val->id],'style'=>'display:inline']) !!}<button onclick="return confirm('Are you sure to delete Category?')" class="delete btn-xs sharp" type="submit"><i class="icofont-ui-delete text-danger"></i> </button>
                                         {!! Form::close() !!}
-                                    </td>
-                                    </td>
+                                    </td>                                    
                                 </tr>
                                 @empty
                                 @endforelse

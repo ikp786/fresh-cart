@@ -17,6 +17,8 @@ return new class extends Migration
             $table->bigIncrements('id');
             $table->string('order_number');
             $table->decimal('order_amount', 8, 2);
+            $table->string('offer_product_name')->nullable();
+            $table->string('offer_product_qty')->nullable();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('driver_id')->nullable();
             $table->string('mobile',13);

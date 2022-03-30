@@ -3,25 +3,43 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Api\BaseController;
+use App\Http\Requests\StoreOrderRequest;
 use App\Http\Resources\DriverOrderDetail;
 use App\Http\Resources\DriverOrderList;
 use App\Http\Resources\UserOrderList;
 use App\Models\Address;
 use App\Models\Cart;
+use App\Models\Offer;
 use App\Models\Order;
 use App\Models\OrderProduct;
 use App\Models\Product;
+use App\Models\Ratting;
 use Illuminate\Http\Request;
+use Validator;
 
 class OrderController extends BaseController
 {
-    public function createOrder(Request $request)
+    public function createOrder(StoreOrderRequest $request)
     {
         try {
             \DB::beginTransaction();
+            // GET OFFER DETAIL 
+            $offer_list                     = Offer::where('status', 1)->with('products')->OrderBy('id', 'desc')->limit(1)->get();
+            $offer_product_name             = '';
+            $offer_product_qty              = '';
+            if (!empty($offer_list)) {
+                $minimum_order_value            = $offer_list[0]->minimum_order_value;
+                // CHECK OFFER FOR THIS ORDER APLICABLE OR NOT
+                if ($request->order_amount >= $minimum_order_value) {
+                    $offer_product_name         = $offer_list[0]->products->name;
+                    $offer_product_qty          = $offer_list[0]->quantity_type;
+                }
+            }
             // SAVE ORDER ID IN ORDER TABLE
             $orders                         = new Order();
             $orders->order_number           = $request->order_id;
+            $orders->offer_product_qty      = $offer_product_qty;
+            $orders->offer_product_name     = $offer_product_name;
             $orders->order_amount           = $request->order_amount;
             $orders->mobile                 = auth()->user()->mobile;
             $orders->email                  = auth()->user()->email;
@@ -132,5 +150,70 @@ class OrderController extends BaseController
         } catch (\Throwable $e) {
             return $this->sendFailed($e->getMessage() . ' on line ' . $e->getLine(), 400);
         }
+    }
+
+    // SENT FEEDBACK
+    public function createFeedback(Request $request)
+    {
+        $error_message =     [
+            'order_id.required'            => 'Order ID should be required',
+            'ratting_star.required'        => 'Ratting should be required',
+            'ratting_comment.required'     => 'Feedback comment should be required',
+            'order_id.unique'              => 'You have already submited Feedback this order'
+        ];
+        $rules = [
+            'order_id'                  => 'required|exists:orders,id|unique:rattings,order_id',
+            'ratting_star'              => 'required',
+            'ratting_comment'           => 'required',
+        ];
+        $validator = Validator::make($request->all(), $rules, $error_message);
+        if ($validator->fails()) {
+            return $this->sendFailed($validator->errors()->first(), 200);
+        }
+        try {
+            \DB::beginTransaction();
+            $ratting = new Ratting();
+            $ratting->fill($request->all());
+            $ratting = auth()->user()->ratting()->save($ratting);
+            \DB::commit();
+            return $this->sendSuccess('FEEDBACK SENT SUCCESSFULLY');
+        } catch (\Throwable $e) {
+            \DB::rollback();
+            return $this->sendFailed($e->getMessage() . ' on line ' . $e->getLine(), 400);
+        }
+    }
+
+    function orderDeliverByDriver(Request $request)
+    {
+
+        $error_message =     [
+            'order_id.required'            => 'Order ID should be required',
+            'order_id.exist'               => 'wrong order id',
+            'driver_payment_type.required' => 'Driver Payment type required if payment mehotd Cod'
+        ];
+        $rules = [
+            'order_id'                  => 'required|exists:orders,id',
+        ];
+        $orders = Order::where(['id' => $request->order_id, 'driver_id' => auth()->user()->id])->first();
+        if (!isset($orders)) {
+            return $this->sendFailed('UNAUTHORRIZED ACCESS', 200);
+        }
+        if ($orders->payment_method == 'Cod') {
+            $rules['driver_payment_type']  = 'required';
+        }
+        $validator = Validator::make($request->all(), $rules, $error_message);
+        if ($validator->fails()) {
+            return $this->sendFailed($validator->errors()->first(), 200);
+        }
+        $orders = Order::find($request->order_id);
+        if ($orders->payment_method == 'Cod') {
+            $orders->driver_payment_type = $request->driver_payment_type;
+        }
+        $orders->order_delivery_status  = 'Deliver';
+        $orders->payment_status      = 'Success';
+        $orders = auth()->user()->orders()->save($orders);
+                  
+
+        return $this->sendSuccess('ORDER DELIVER SUCCESSFULLY');
     }
 }
