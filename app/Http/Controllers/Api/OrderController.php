@@ -120,7 +120,6 @@ class OrderController extends BaseController
         }
     }
 
-
     public function getDriverOrderList($payment_method)
     {
         try {
@@ -185,7 +184,6 @@ class OrderController extends BaseController
 
     function orderDeliverByDriver(Request $request)
     {
-
         $error_message =     [
             'order_id.required'            => 'Order ID should be required',
             'order_id.exist'               => 'wrong order id',
@@ -212,8 +210,6 @@ class OrderController extends BaseController
         $orders->order_delivery_status  = 'Deliver';
         $orders->payment_status      = 'Success';
         $orders = auth()->user()->orders()->save($orders);
-                  
-
         return $this->sendSuccess('ORDER DELIVER SUCCESSFULLY');
     }
 }

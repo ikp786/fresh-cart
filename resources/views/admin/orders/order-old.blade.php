@@ -18,7 +18,7 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-body">
-                        <table id="myDataTable" class="table table-hover align-middle mb-0" style="width: 100%;">
+                        <table id="example" class="table table-hover align-middle mb-0" style="width: 100%;">
                             <thead>
                                 <tr>
                                     <th>Order Id</th>
@@ -26,7 +26,7 @@
                                     <th>Email</th>
                                     <th>Mobile</th>
                                     <th>Order<br> Amount</th>
-                                    <th>Payment<br> Method</th>                                    
+                                    <th>Payment<br> Method</th>
                                     <th>Order <br> Status</th>
                                     <th>Address</th>
                                     <th>Pincode</th>
@@ -35,19 +35,19 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @forelse($orders as $val)                                
+                                @forelse($orders as $val)
                                 <tr>
-                                <td><strong> <a href="{{route('admin.orders.order-product',$val->id)}}"> {{$val->order_number}}</a></strong></td>
+                                    <td><strong> <a href="{{route('admin.orders.order-product',$val->id)}}"> {{$val->order_number}}</a></strong></td>
                                     <td>{{$val->users->name}}</td>
-                                     <td>{{$val->users->email}}</td>
-                                    <td>{{$val->users->mobile}}</td> 
+                                    <td>{{$val->users->email}}</td>
+                                    <td>{{$val->users->mobile}}</td>
                                     <td>{{$val->order_amount}}</td>
                                     <td>{{$val->payment_method}}</td>
-                                    <td></td>
-                                    
+
+
                                     <td>{{$val->order_delivery_status}}</td>
                                     <td>{{isset($val->addresses->address) ? $val->addresses->address : ''}}</td>
-                                    <td>{{isset($val->addresses->pincode) ? $val->addresses->pincode : ''}}</td>                                    
+                                    <td>{{isset($val->addresses->pincode) ? $val->addresses->pincode : ''}}</td>
                                     <td> {{$val->created_at}} </td>
                                     <td>{{$val->drivers->name}}</td>
                                 </tr>
@@ -65,11 +65,18 @@
 @section('script')
 <script>
     $(document).ready(function() {
+
+        $('#example').DataTable({
+            dom: 'Bfrtip',
+            buttons: [
+                'csvHtml5'
+            ]
+        });
         $('.asign-driver').change(function() {
-            
-            if (!confirm("Do you want Asign  driver")){
-              return false;
-          } 
+
+            if (!confirm("Do you want Asign  driver")) {
+                return false;
+            }
 
             var driver_id = $(this).val();
             var order_id = $(this).attr('order_id');

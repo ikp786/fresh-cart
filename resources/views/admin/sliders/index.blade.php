@@ -40,7 +40,6 @@
                                         {!! Form::open(['method' => 'DELETE','route' => ['admin.sliders.destroy', $val->id],'style'=>'display:inline']) !!}<button onclick="return confirm('Are you sure to delete Sliders?')" class="delete btn-xs sharp" type="submit"><i class="icofont-ui-delete text-danger"></i> </button>
                                         {!! Form::close() !!}
                                     </td>
-                                    </td>
                                 </tr>
                                 @empty
                                 @endforelse

@@ -20,7 +20,7 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-body">
-                        <table id="myDataTable" class="table table-hover align-middle mb-0" style="width: 100%;">
+                        <table id="example" class="table table-hover align-middle mb-0" style="width: 100%;">
                             <thead>
                                 <tr>
                                     <th>Order Id</th>
@@ -64,7 +64,14 @@
 @endsection
 @section('script')
 <script>
-    $(document).ready(function() {        
+    $(document).ready(function() {       
+        
+        $('#example').DataTable({
+  dom: 'Bfrtip',
+  buttons: [
+    'csvHtml5'
+  ]
+} );
         $('.asign-driver').change(function() {
             
             if (!confirm("Do you want Asign  driver")){
