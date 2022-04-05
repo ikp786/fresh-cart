@@ -14,6 +14,7 @@ use App\Models\Order;
 use App\Models\OrderProduct;
 use App\Models\Product;
 use App\Models\Ratting;
+use App\Models\Setting;
 use Illuminate\Http\Request;
 use Validator;
 
@@ -23,6 +24,12 @@ class OrderController extends BaseController
     {
         try {
             \DB::beginTransaction();
+            $checkCarts = Cart::where('user_id', auth()->user()->id)->get()->toArray();            
+            if(empty($checkCarts)){
+                return $this->sendFailed('SORRY! NO PRODUCT FOUND IN CART', 200);
+            }
+            // GET DELIVERY CHARGE
+            $delivery_charge                = Setting::value('deliver_charge');
             // GET OFFER DETAIL 
             $offer_list                     = Offer::where('status', 1)->with('products')->OrderBy('id', 'desc')->limit(1)->get();
             $offer_product_name             = '';
@@ -41,6 +48,7 @@ class OrderController extends BaseController
             $orders->offer_product_qty      = $offer_product_qty;
             $orders->offer_product_name     = $offer_product_name;
             $orders->order_amount           = $request->order_amount;
+            $orders->deliver_charge         = $delivery_charge;
             $orders->mobile                 = auth()->user()->mobile;
             $orders->email                  = auth()->user()->email;
             $orders->payment_method         = $request->payment_method;
@@ -120,19 +128,39 @@ class OrderController extends BaseController
         }
     }
 
-    public function getDriverOrderList($payment_method)
+    public function driverDashboard()
     {
         try {
-            if ($payment_method == 'Online' || $payment_method == 'Cod') {
-            } else {
-                return $this->sendFailed('Sorry! Status accept only Online or Cod', 400);
-            }
-            $orders = auth()->user()->driverOrders()->where('payment_method', $payment_method)->with('addresses')->get();
+            $orders = auth()->user()->driverOrders()->where('driver_id', auth()->user()->id)->where('order_delivery_status', 'Pending')->with('addresses')->get();
+            $total_order = auth()->user()->driverOrders()->where('driver_id', auth()->user()->id)->count();
+            $total_amount = auth()->user()->driverOrders()->where('driver_id', auth()->user()->id)->sum('deliver_charge');
 
-            if (!isset($orders) || count($orders) == 0) {
-                return $this->sendFailed('ORDER NOT FOUND', 200);
-            }
-            return $this->sendSuccess('ORDER GET SUCCESSFULLY', DriverOrderList::collection($orders));
+            $profile_pic   = !empty(auth()->user()->profile_pic) ? asset('storage/app/public/user_images/' . auth()->user()->profile_pic) : asset('storage/user_images/logo.png');
+            $profile      = [
+                'name' => auth()->user()->name,
+                'online_status' => auth()->user()->online_status,
+                'profile_pic' => $profile_pic
+            ];
+            return $this->sendSuccess('ORDER GET SUCCESSFULLY', ['order_list' => DriverOrderList::collection($orders), 'total_income' => $total_amount, 'total_order' => $total_order,'driver_info' => $profile]);
+        } catch (\Throwable $e) {
+            return $this->sendFailed($e->getMessage() . ' on line ' . $e->getLine(), 400);
+        }
+    }
+
+    public function getDriverOrderList()
+    {
+        try {
+        //    echo auth()->user()->id;die;
+            $pending_orders = auth()->user()->driverOrders()->where('order_delivery_status', 'Pending')            
+            ->with('addresses')->get();
+            $deliver_orders = auth()->user()->driverOrders()->where('order_delivery_status', 'Deliver')            
+            ->with('addresses')->get();
+            $data  = [
+                'pending'  => DriverOrderList::collection($pending_orders),
+                'deliver'  => DriverOrderList::collection($deliver_orders)
+            ];
+           
+            return $this->sendSuccess('ORDER GET SUCCESSFULLY', $data);
         } catch (\Throwable $e) {
             return $this->sendFailed($e->getMessage() . ' on line ' . $e->getLine(), 400);
         }

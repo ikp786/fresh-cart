@@ -30,7 +30,7 @@ class StoreProductRequest extends FormRequest
             'kg_price'       => 'required|numeric|digits_between:1,8',
             'category_id'    => 'required|exists:categories,id',
             'description'    => 'required',
-            'image'          => 'required|array|min:3',
+            'image'          => 'required|array',
             'status'         => 'required|In:0,1'
         ];
     }

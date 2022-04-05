@@ -3,8 +3,6 @@
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\ProductController;
-use App\Http\Resources\UserProfileCollection;
-// use App\Http\Resources\ProfileCollection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -48,8 +46,6 @@ Route::controller(ProductController::class)->group(function () {
     Route::get('get_product_detail/{id}', 'getProductDetails');
 });
 
-
-
 /*
         |--------------------------------------------------------------------------
         | AUTH REGISTER LOGIN SENT LOGIN OTP ROUTE
@@ -58,6 +54,8 @@ Route::controller(ProductController::class)->group(function () {
 Route::controller(AuthController::class)->group(function () {
     Route::post('user_register', 'userRegister');
     Route::post('sent_register_otp', 'sentRegisterOtp');
+    Route::post('register_otp_verify', 'registerOtpVerify');
+    Route::post('register_resent_otp_verify', 'registerReSentOtp');
 });
 /*
         |--------------------------------------------------------------------------
@@ -67,12 +65,17 @@ Route::controller(AuthController::class)->group(function () {
 Route::middleware('auth:api')->group(function () {
     Route::controller(AuthController::class)->group(function () {
         Route::get('get_user_profile', 'getUserProfile');
+        Route::get('get_driver_profile', 'getDriverProfile');
         Route::post('update_user_profile', 'updateUserProfile');
+        Route::post('update_mobile', 'updateMobile');
+        Route::post('re_sent_otp_mobile_update', 'reSentOtpMobileUpdate');
+        Route::get('change_online_status', 'changeOnlineStatus');
     });
     Route::controller(ProductController::class)->group(function () {
         Route::post('add_to_cart', 'addToCart');
         Route::get('delete_in_cart/{id}', 'deleteProdcutInCart');
         Route::get('get_Cart_detail', 'getCartDetail');
+        Route::get('user_dashboard', 'userDashboard');        
     });
 
     /*
@@ -84,9 +87,10 @@ Route::middleware('auth:api')->group(function () {
         Route::post('create_order', 'createOrder');
         Route::get('get_user_order_list/{status}', 'getUserOrderList');
         Route::get('get_user_order_detail/{id}', 'getUserOrderDetail');
-        Route::get('get_driver_order_list/{payment_method}', 'getDriverOrderList');
+        Route::get('get_driver_order_list', 'getDriverOrderList');
         Route::get('get_driver_order_detail/{id}', 'getDriverOrderDetail');
         Route::post('create_feedback', 'createFeedback');
         Route::post('order_deliver_by_driver', 'orderDeliverByDriver');
+        Route::get('driver_dashboard', 'driverDashboard');
     });
 });

@@ -55,13 +55,13 @@
                                 </div>
                             </div>
 
-                            
+
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <label class="form-label">Category</label>
                                     {{ Form::select('category_id', $categories, '', ['class' => 'form-control','id' => 'category_id']) }}
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="card-header py-3 d-flex justify-content-between align-items-center bg-transparent border-bottom-0">
                                         <h6 class="m-0 fw-bold">Status</h6>
                                     </div>
@@ -80,39 +80,45 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                <label class="form-label">Description</label>
-                                {{ Form::textarea('description','',['rows' => 4,'id' => 'description', 'class' => 'form-control']) }}               
-                                </div>
-
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <h3 class="panel-title"><strong> Images</strong></h3><br /><br />
+                                <div class="col-md-4">
+                                    <label for="freshfromthefarm"> Fresh From The Farm</label>
+                                    <br>
+                                    <input name="freshfromthefarm" type="checkbox" value="1">
                                 </div>
                             </div>
-                            <div class="">
-                                <div class="text-center" style="margin: 20px 0px 20px 0px;">
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-6">
-
-                                        <button id="addPropertyImgeRow" type="button" class="btn btn-primary btn-info">Add Row</button>
-
-                                        <input type="file" name="image[]" class="form-control">
-                                        <div id="newPropImgRow"></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <button type="submit" class="btn btn-primary py-2 px-5 text-uppercase btn-set-task w-sm-100">Save</button>
-                        </form>
                     </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label class="form-label">Description</label>
+                            {{ Form::textarea('description','',['rows' => 4,'id' => 'description', 'class' => 'form-control']) }}
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h3 class="panel-title"><strong> Images</strong></h3><br /><br />
+                        </div>
+                    </div>
+                    <div class="">
+                        <div class="text-center" style="margin: 20px 0px 20px 0px;">
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+
+                                <button id="addPropertyImgeRow" type="button" class="btn btn-primary btn-info">Add Row</button>
+
+                                <input type="file" name="image[]" class="form-control">
+                                <div id="newPropImgRow"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary py-2 px-5 text-uppercase btn-set-task w-sm-100">Save</button>
+                    </form>
                 </div>
             </div>
         </div>
-    </div><!-- Row end  -->
+    </div>
+</div><!-- Row end  -->
 </div>
 </div>
 @endsection
@@ -138,10 +144,9 @@
     });
 
     ClassicEditor
-            .create( document.querySelector( '#description' ) )
-            .catch( error => {
-                console.error( error );
-            } );
-
+        .create(document.querySelector('#description'))
+        .catch(error => {
+            console.error(error);
+        });
 </script>
 @endsection

@@ -20,8 +20,8 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products   = Product::with('images','categories')->get();     
-        
+        $products   = Product::with('images', 'categories')->get();
+
         $title      = 'products';
         $data       = compact('title', 'products');
         return view('admin.products.index', $data);
@@ -51,6 +51,11 @@ class ProductController extends Controller
         try {
             $products      = new Product();
             $products->fill($request->all());
+            if ($request->freshfromthefarm == 1) {
+                $request->freshfromthefarm  = 1;
+            } else {
+                $products->freshfromthefarm  = 0;
+            }
             $products->save();
 
             if ($request->has('image')) {
@@ -92,8 +97,8 @@ class ProductController extends Controller
         $title        = 'products';
         $categories   = Category::pluck('name', 'id');
         $products     = Product::with('allImages')->find($id);
-        
-        $data         = compact('title', 'categories','products');
+
+        $data         = compact('title', 'categories', 'products');
         return view('admin.products.edit', $data);
     }
 
@@ -109,8 +114,12 @@ class ProductController extends Controller
         try {
             $products      = Product::find($id);
             $products->fill($request->all());
+            if ($request->freshfromthefarm == 1) {
+                $request->freshfromthefarm  = 1;
+            } else {
+                $products->freshfromthefarm  = 0;
+            }
             $products->save();
-
             if ($request->has('image')) {
                 foreach ($request->file('image') as $images_data) {
                     $image_name = time() . '_' . rand(1111, 9999) . '_' . $products->id . '.' . $images_data->getClientOriginalExtension();
@@ -139,7 +148,8 @@ class ProductController extends Controller
         //
     }
 
-    public function deleteProductImage(Request $request){
+    public function deleteProductImage(Request $request)
+    {
         if (request()->ajax()) {
             $doc = ProductImage::findOrfail($request->id);
             if (!empty($doc)) {

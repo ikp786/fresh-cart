@@ -16,7 +16,7 @@
         <div class="row align-items-center">
             <div class="border-0 mb-4">
                 <div class="card-header py-3 no-bg bg-transparent d-flex align-items-center px-0 justify-content-between border-bottom flex-wrap">
-                    <span class="btn btn-primary py-2 px-5 text-uppercase btn-set-task w-sm-100">Add</span>
+                    <span class="btn btn-primary py-2 px-5 text-uppercase btn-set-task w-sm-100">Edit</span>
                     <h3 class="fw-bold mb-0"></h3>
                     <a href="{{route('admin.products.index')}}" class="btn btn-primary py-2 px-5 text-uppercase btn-set-task w-sm-100">lIST</a>
                 </div>
@@ -45,7 +45,7 @@
 
 
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <label class="form-label">Half KG Price</label>
                                 {{ Form::text('half_kg_price',$products->half_kg_price,['class' => 'form-control']) }}
                             </div>
@@ -54,20 +54,18 @@
                                 {{ Form::text('kg_price',$products->kg_price,['class' => 'form-control']) }}
                             </div>
                         </div>
-
-
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <label class="form-label">Category</label>
                                 {{ Form::select('category_id', $categories, $products->category_id, ['class' => 'form-control','id' => 'category_id']) }}
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="card-header py-3 d-flex justify-content-between align-items-center bg-transparent border-bottom-0">
-                                    <h6 class="m-0 fw-bold">Status{{$products->status}} </h6>
+                                    <h6 class="m-0 fw-bold">Status </h6>
                                 </div>
                                 <div class="card-body">
                                     <div class="form-check">
-                                        <input class="form-check-input" {{ ($products->status=="1") ? "checked" : "" }} type="radio" name="status" value="1"  >
+                                        <input class="form-check-input" {{ ($products->status=="1") ? "checked" : "" }} type="radio" name="status" value="1">
                                         <label class="form-check-label">
                                             Published
                                         </label>
@@ -80,40 +78,48 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <label class="form-label">Description</label>
-                                {{ Form::textarea('description',$products->description,['rows' => 4,'id' => 'description', 'class' => 'form-control']) }}
+
+                            <div class="col-md-4">
+                                <label for="freshfromthefarm"> Fresh From The Farm</label>
+                                <br>
+                                <input name="freshfromthefarm" {{ ($products->freshfromthefarm=="1") ? "checked" : "" }} type="checkbox" value="1">
                             </div>
-                        </div>
-                        <div class="col-md-12">
-                            <label for="">Images</label>
-                            @foreach($products->allImages as $key => $val)
-                            @php $image = isset($val->image) ? $val->image : ''; @endphp
-                            <span id="{{$val->id}}"><img style="height: 50px; width:50px;" src="{{asset('storage/app/public/product_images/'.$image)}}" alt=""> <button onclick="deleteImage({{$val->id}})" type="button">X</button></span>
-                            @endforeach
-                        </div>
-                        <div class="row">
-                            <!-- <label for=""> Images</label> -->
-                            <div class="col-md-6">
-                                <input type="file" name="image[]" class="form-control">
-                            </div>
-                            <div class="col-md-6">
-                                <button id="addPropertyImgeRow" type="button" class="btn btn-primary btn-info">Add Row</button>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div id="newPropImgRow"></div>
                         </div>
 
+                    
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label class="form-label">Description</label>
+                            {{ Form::textarea('description',$products->description,['rows' => 4,'id' => 'description', 'class' => 'form-control']) }}
+                        </div>
                     </div>
-                    <button type="submit" class="btn btn-primary py-2 px-5 text-uppercase btn-set-task w-sm-100">Save</button>
-                    </form>
+                    <div class="col-md-12">
+                        <label for="">Images</label>
+                        @foreach($products->allImages as $key => $val)
+                        @php $image = isset($val->image) ? $val->image : ''; @endphp
+                        <span id="{{$val->id}}"><img style="height: 50px; width:50px;" src="{{asset('storage/app/public/product_images/'.$image)}}" alt=""> <button onclick="deleteImage({{$val->id}})" type="button">X</button></span>
+                        @endforeach
+                    </div>
+                    <div class="row">
+                        <!-- <label for=""> Images</label> -->
+                        <div class="col-md-6">
+                            <input type="file" name="image[]" class="form-control">
+                        </div>
+                        <div class="col-md-6">
+                            <button id="addPropertyImgeRow" type="button" class="btn btn-primary btn-info">Add Row</button>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div id="newPropImgRow"></div>
+                    </div>
+
                 </div>
+                <button type="submit" class="btn btn-primary py-2 px-5 text-uppercase btn-set-task w-sm-100">Save</button>
+                </form>
             </div>
         </div>
     </div>
+</div>
 </div><!-- Row end  -->
 </div>
 </div>

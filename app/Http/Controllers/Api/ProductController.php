@@ -4,17 +4,41 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Api\BaseController;
 use App\Http\Requests\AddToCartRequest;
+use App\Http\Resources\BannerResource;
 use App\Http\Resources\CartListCollection;
+use App\Http\Resources\CategoryResource;
 use App\Http\Resources\OfferResource;
 use App\Http\Resources\ProductResource;
+use App\Models\Address;
 use App\Models\Cart;
 use App\Models\Category;
 use App\Models\Offer;
 use App\Models\Product;
+use App\Models\Slider;
 use Illuminate\Http\Request;
 
 class ProductController extends BaseController
 {
+    public function userDashboard()
+    {
+        try {
+            $cagetory_list = Category::OrderBy('name', 'asc')->get(['id', 'name', 'image']);
+            $profile_pic   = !empty(auth()->user()->profile_pic) ? asset('storage/app/public/user_images/' . auth()->user()->profile_pic) : asset('storage/user_images/logo.png');
+            $get_address   = Address::where('user_id', auth()->user()->id)->latest()->first();
+            $profile       = [
+                'name'           => auth()->user()->name,
+                'address'        => isset($get_address->address) ? $get_address->address : '',
+                'address_type'        => isset($get_address->type) ? $get_address->type : '',
+                'profile_pic'    => $profile_pic
+            ];
+            $products  = Product::where('freshfromthefarm', '1')->with('allImages')->get();
+            $sliders = Slider::get();
+            return $this->sendSuccess('DASHBOARD GET SUCCESSFULLY', ['category' => CategoryResource::collection($cagetory_list), 'product_details' => ProductResource::collection($products), 'user_data' => $profile, 'banner' => BannerResource::collection($sliders)]);
+        } catch (\Throwable $e) {
+            return $this->sendFailed($e->getMessage() . ' on line ' . $e->getLine(), 400);
+        }
+    }
+
     // PRODUCT CATEGORY LIST
     public function getCategoryList()
     {
@@ -23,7 +47,7 @@ class ProductController extends BaseController
             if (!isset($cagetory_list) || count($cagetory_list) == 0) {
                 return $this->sendFailed('CATEGORY NOT FOUND', 200);
             }
-            return $this->sendSuccess('CATEGORY GET SUCCESSFULLY', $cagetory_list);
+            return $this->sendSuccess('CATEGORY GET SUCCESSFULLY', CategoryResource::collection($cagetory_list));
         } catch (\Throwable $e) {
             return $this->sendFailed($e->getMessage() . ' on line ' . $e->getLine(), 400);
         }
@@ -73,7 +97,6 @@ class ProductController extends BaseController
     {
         try {
             $products  = Product::with('allImages')->where('id', $id)->first();
-            // dd($products);die;
             if (!isset($products) || empty($products)) {
                 return $this->sendFailed('PRODUCT NOT FOUND', 200);
             }
@@ -85,7 +108,6 @@ class ProductController extends BaseController
 
     function addToCart(AddToCartRequest $request)
     {
-
         try {
             $products  = Product::find($request->product_id);
             if (!isset($products) || empty($products)) {

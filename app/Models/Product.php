@@ -11,6 +11,7 @@ class Product extends Model
 
     protected $fillable = [
         'name',
+        'freshfromthefarm',
         'pav_price',
         'half_kg_price',
         'kg_price',

@@ -22,9 +22,10 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password')->nullable();
             $table->integer('role');
+            $table->integer('otp')->nullable();
             $table->text('address')->nullable();
             $table->date('dob')->nullable();
-            $table->string('profile_pic',50)->nullable();
+            $table->string('profile_pic',250)->nullable();
             $table->rememberToken();
             $table->softDeletes();
             $table->timestamps();

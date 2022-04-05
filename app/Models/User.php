@@ -23,12 +23,13 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
-        'password',
+        'password', 
         'mobile',
         'role',
         'unique_id',
         'address',
         'dob',
+        'online_status',
         'profile_pic',
     ];
 

@@ -20,7 +20,7 @@ class ProductResource extends JsonResource
             'pav_price'         => $this->pav_price,
             'half_kg_price'     => $this->half_kg_price,
             'kg_price'          => $this->kg_price,
-            'description'       => $this->kg,
+            'description'       => $this->description,
             'images'            => ProductImagesResource::collection($this->allImages)
         ];
     }

@@ -44,7 +44,7 @@ Route::group(['prefix' => 'admin'], function () {
 
         /*
 |--------------------------------------------------------------------------
-| DASHBOARD
+| DASHBOARD | SETTING
 |--------------------------------------------------------------------------
 */
         Route::controller(DashboardController::class)->group(function () {
@@ -52,6 +52,12 @@ Route::group(['prefix' => 'admin'], function () {
             Route::get('logout', 'logout')->name('admin.logout');
             Route::group(['prefix' => 'users'], function () {
                 Route::get('index', 'userList')->name('admin.users.index');
+            });
+
+            Route::group(['prefix' => 'settings'], function () {
+                Route::get('/', 'settingList')->name('admin.settings.index');
+                Route::get('edit/{id}', 'settingEdit')->name('admin.settings.edit');
+                Route::PATCH('update/{id}', 'settingUpdate')->name('admin.settings.update');
             });
         });
 

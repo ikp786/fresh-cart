@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Storage;
 use Validator;
 use App\Http\Resources\UserProfileCollection;
 use App\Http\Resources\CompanyCollection;
+use App\Http\Resources\DriverProfile;
 use App\Http\Resources\EducationCollection;
 use App\Http\Resources\SaleNowCollection;
 use App\Models\Company;
@@ -19,6 +20,11 @@ class UserController extends BaseController
 	public function getUserProfile()
 	{
 		return $this->sendSuccess('USER DATA GET SUCCESSFULLY', new UserProfileCollection(auth()->user()));
+	}
+
+	public function getDriverProfile()
+	{
+		return $this->sendSuccess('DRIVER DATA GET SUCCESSFULLY', new DriverProfile(auth()->user()));
 	}
 
 	// UPDATE PROFILE
@@ -71,19 +77,5 @@ class UserController extends BaseController
 		}
 	}
 
-	public function homepage()
-	{
-		try
-    	{
-    		$companyData = Company::orderBy('id', 'DESC')->get();
-    		$educationData = Education::orderBy('id', 'DESC')->get();
-    		$saleNowData = SaleNow::orderBy('id', 'DESC')->get();
-			
-			return $this->sendSuccess('GET HOMEPAGE DATA SUCCESSFULLY', ['company_data' => CompanyCollection::collection($companyData), 'education_data' => EducationCollection::collection($educationData), 'salenow_data' => SaleNowCollection::collection($saleNowData)]);
-		}
-        catch (\Throwable $e)
-		{
-			return $this->sendFailed($e->getMessage().' on line '.$e->getLine(), 400);  
-		}
-	}
+
 }

@@ -68,15 +68,13 @@
                     <li><a class="ms-link" href="department.html">Department</a></li> -->
                 </ul>
             </li>
-            <!-- <li class="collapsed">
-                <a class="m-link" data-bs-toggle="collapse" data-bs-target="#menu-Componentsone" href="#"><i class="icofont-ui-calculator"></i> <span>Accounts</span> <span class="arrow icofont-rounded-down ms-auto text-end fs-5"></span></a>
+            <li class="collapsed">
+                <a class="m-link" data-bs-toggle="collapse" data-bs-target="#menu-Componentsone" href="#"><i class="icofont-ui-calculator"></i> <span>Setting</span> <span class="arrow icofont-rounded-down ms-auto text-end fs-5"></span></a>
                 
                 <ul class="sub-menu collapse" id="menu-Componentsone">
-                    <li><a class="ms-link" href="invoices.html">Invoices </a></li>
-                    <li><a class="ms-link" href="expenses.html">Expenses </a></li>
-                    <li><a class="ms-link" href="salaryslip.html">Salary Slip </a></li>
+                <li><a class="ms-link" href="{{route('admin.settings.index')}}">List</a></li>                                        
                 </ul>
-            </li> -->
+            </li>
             <!-- <li class="collapsed">
                 <a class="m-link" data-bs-toggle="collapse" data-bs-target="#app" href="#">
                     <i class="icofont-code-alt fs-5"></i> <span>App</span> <span class="arrow icofont-rounded-down ms-auto text-end fs-5"></span></a>

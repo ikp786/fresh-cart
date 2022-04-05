@@ -21,7 +21,9 @@ class UserProfileCollection extends JsonResource
             'name'          => $this->name,
             'email'         => $this->email,
             'mobile'        => $this->mobile,
-            'profile_pic'   => !empty($this->profile_pic) ? asset('storage/app/public/user_images/' . $this->profile_pic) : asset('storage/user_images/logo.png'),
+            'address'       => $this->address,
+            'dob'           => $this->dob,            
+            'profile_pic'   => !empty($this->profile_pic) ? asset('storage/app/public/user_images/' . $this->profile_pic) : asset('storage/app/public/default/default.jpg'),
         ];
     }
 }
