@@ -16,7 +16,7 @@
         <div class="row align-items-center">
             <div class="border-0 mb-4">
                 <div class="card-header py-3 no-bg bg-transparent d-flex align-items-center px-0 justify-content-between border-bottom flex-wrap">
-                    <span class="btn btn-primary py-2 px-5 text-uppercase btn-set-task w-sm-100">Edit</span>
+                    <span class="btn  py-2 px-5 text-uppercase btn-set-task w-sm-100">Edit</span>
                     <h3 class="fw-bold mb-0"></h3>
                     <a href="{{route('admin.products.index')}}" class="btn btn-primary py-2 px-5 text-uppercase btn-set-task w-sm-100">lIST</a>
                 </div>
@@ -38,26 +38,26 @@
                                 {{ Form::text('name',$products->name,['class' => 'form-control']) }}
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label">Pav Price</label>
-                                {{ Form::text('pav_price',$products->pav_price,['class' => 'form-control']) }}
+                                <label class="form-label">250 Gram Price</label>
+                                {{ Form::number('pav_price',$products->pav_price,['class' => 'form-control']) }}
                             </div>
                         </div>
 
 
                         <div class="row">
                             <div class="col-md-4">
-                                <label class="form-label">Half KG Price</label>
-                                {{ Form::text('half_kg_price',$products->half_kg_price,['class' => 'form-control']) }}
+                                <label class="form-label">500 Gram Price</label>
+                                {{ Form::number('half_kg_price',$products->half_kg_price,['class' => 'form-control']) }}
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label">KG Price</label>
-                                {{ Form::text('kg_price',$products->kg_price,['class' => 'form-control']) }}
+                                <label class="form-label">1000 Gram Price</label>
+                                {{ Form::number('kg_price',$products->kg_price,['class' => 'form-control']) }}
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-4">
                                 <label class="form-label">Category</label>
-                                {{ Form::select('category_id', $categories, $products->category_id, ['class' => 'form-control','id' => 'category_id']) }}
+                                {{ Form::select('category_id', $categories, $products->category_id, ['Select Category','class' => 'form-control','id' => 'category_id']) }}
                             </div>
                             <div class="col-md-4">
                                 <div class="card-header py-3 d-flex justify-content-between align-items-center bg-transparent border-bottom-0">
@@ -73,7 +73,7 @@
                                     <div class="form-check">
                                         <input class="form-check-input" {{ ($products->status=="0") ? "checked" : "" }} type="radio" value="0" name="status">
                                         <label class="form-check-label">
-                                            Unpublish
+                                            Unpublished
                                         </label>
                                     </div>
                                 </div>

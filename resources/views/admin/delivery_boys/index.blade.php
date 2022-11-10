@@ -1,5 +1,12 @@
 @extends('admin.layouts.app')
 @section('style')
+
+<style>
+    td {
+        text-align: left !important;
+    }
+</style>
+
 @endsection
 @section('content')
 @include('admin.inc.validation_message')
@@ -10,7 +17,7 @@
         <div class="row align-items-center">
             <div class="border-0 mb-4">
                 <div class="card-header py-3 no-bg bg-transparent d-flex align-items-center px-0 justify-content-between border-bottom flex-wrap">
-                    <span class="btn btn-primary py-2 px-5 text-uppercase btn-set-task w-sm-100">List</span>
+                    <span class="py-2 px-5 text-uppercase btn-set-task w-sm-100">List</span>
                     <h3 class="fw-bold mb-0"></h3>
                     <a href="{{route('admin.delivery-boys.create')}}" class="btn btn-primary py-2 px-5 text-uppercase btn-set-task w-sm-100">Add</a>
                 </div>
@@ -34,7 +41,7 @@
                             <tbody>
                                 @forelse($delivery as $val)
                                 <tr>
-                                    <td><strong>{{$val->id}}</strong></a></td>                                    
+                                    <td><strong>{{$val->id}}</strong></a></td>
                                     <td>{{$val->name}}</td>
                                     <td>{{$val->unique_id}}</td>
                                     <td>{{$val->email}}</td>

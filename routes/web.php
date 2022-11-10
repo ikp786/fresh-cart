@@ -121,6 +121,8 @@ Route::group(['prefix' => 'admin'], function () {
                 Route::PATCH('update/{id}', 'update')->name('admin.products.update');
                 Route::delete('destroy{id}', 'destroy')->name('admin.products.destroy');
                 Route::delete('products/delete-image', 'deleteProductImage')->name('admin.products.delete-product-image');
+                Route::post('add_fresh_farma', 'addFreshFarma')->name('admin.products.add_fresh_farma');
+
             });
         });
 

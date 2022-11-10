@@ -16,13 +16,18 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('order_number');
+            $table->string('razorpay_id')->nullable();
+            $table->integer('is_order')->default(0);
             $table->decimal('order_amount', 8, 2);
             $table->decimal('deliver_charge', 8, 2);
             $table->string('offer_product_name')->nullable();
             $table->string('offer_product_qty')->nullable();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('driver_id')->nullable();
+            $table->unsignedBigInteger('address_id')->nullable();
             $table->string('mobile', 13);
+            $table->text('address');
+            $table->string('pincode');
             $table->string('email')->nullable();
             $table->string('txn_id')->nullable();
             $table->enum('payment_method', ['Cod', 'Online'])->nullable()->comment('cod=> cash on delivery, online => payment gateway');

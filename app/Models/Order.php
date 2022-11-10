@@ -11,6 +11,9 @@ class Order extends Model
     
     protected $fillable = [
         'order_number',
+        'razorpay_id',
+        'is_order',
+        'address_id',
         'order_amount',
         'deliver_charge',
         'user_id',
@@ -33,12 +36,17 @@ class Order extends Model
     }
 
     function addresses()
-    {
-        return $this->hasOne(Address::class,'order_id','id');
+    {        
+        return $this->hasOne(Address::class,'id','address_id');
     }
 
     function orderProduct()
     {
         return $this->hasOne(OrderProduct::class,'order_id','id');
+    }
+
+    function orderProductList()
+    {
+        return $this->hasMany(OrderProduct::class,'order_id','id');
     }
 }

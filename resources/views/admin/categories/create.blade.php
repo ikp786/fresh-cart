@@ -10,7 +10,7 @@
         <div class="row align-items-center">
             <div class="border-0 mb-4">
                 <div class="card-header py-3 no-bg bg-transparent d-flex align-items-center px-0 justify-content-between border-bottom flex-wrap">
-                <span class="btn btn-primary py-2 px-5 text-uppercase btn-set-task w-sm-100">Add</span>
+                <span class="btn  py-2 px-5 text-uppercase btn-set-task w-sm-100">Add</span>
                     <h3 class="fw-bold mb-0"></h3>
                     <a href="{{route('admin.categories.index')}}" class="btn btn-primary py-2 px-5 text-uppercase btn-set-task w-sm-100">lIST</a>
                 </div>
@@ -29,7 +29,7 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <label class="form-label">Name</label>
-                                    <input type="text" name="name" class="form-control">
+                                    <input type="text" placeholder="Category Name" name="name" class="form-control">
                                 </div>
                                 <div class="col-md-6">
                                     <div class="card-header py-3 d-flex justify-content-between align-items-center bg-transparent border-bottom-0">

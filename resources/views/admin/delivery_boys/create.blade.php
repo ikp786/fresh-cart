@@ -10,7 +10,7 @@
         <div class="row align-items-center">
             <div class="border-0 mb-4">
                 <div class="card-header py-3 no-bg bg-transparent d-flex align-items-center px-0 justify-content-between border-bottom flex-wrap">
-                    <span class="btn btn-primary py-2 px-5 text-uppercase btn-set-task w-sm-100">Add</span>
+                    <span class="py-2 px-5 text-uppercase btn-set-task w-sm-100">Add</span>
                     <h3 class="fw-bold mb-0"></h3>
                     <a href="{{route('admin.delivery-boys.index')}}" class="btn btn-primary py-2 px-5 text-uppercase btn-set-task w-sm-100">lIST</a>
                 </div>
@@ -41,10 +41,10 @@
                                     <label class="form-label">Email</label>
                                     <input type="email" name="email" class="form-control">
                                 </div>
-                                <div class="col-md-6">
+                                <!-- <div class="col-md-6">
                                     <label class="form-label">Password</label>
                                     <input type="text" name="password" class="form-control">
-                                </div>
+                                </div> -->
                             </div>
                             <br>
                             <button type="submit" class="btn btn-primary py-2 px-5 text-uppercase btn-set-task w-sm-100">Save</button>

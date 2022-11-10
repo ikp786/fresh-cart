@@ -16,7 +16,7 @@
         <div class="row align-items-center">
             <div class="border-0 mb-4">
                 <div class="card-header py-3 no-bg bg-transparent d-flex align-items-center px-0 justify-content-between border-bottom flex-wrap">
-                    <span class="btn btn-primary py-2 px-5 text-uppercase btn-set-task w-sm-100">Add</span>
+                    <span class="btn  py-2 px-5 text-uppercase btn-set-task w-sm-100">Add</span>
                     <h3 class="fw-bold mb-0"></h3>
                     <a href="{{route('admin.products.index')}}" class="btn btn-primary py-2 px-5 text-uppercase btn-set-task w-sm-100">lIST</a>
                 </div>
@@ -38,28 +38,24 @@
                                     {{ Form::text('name','',['class' => 'form-control']) }}
                                 </div>
                                 <div class="col-md-6">
-                                    <label class="form-label">Pav Price</label>
-                                    {{ Form::text('pav_price','',['class' => 'form-control']) }}
+                                    <label class="form-label">250 Gram Price</label>
+                                    {{ Form::number('pav_price','',['class' => 'form-control']) }}
                                 </div>
                             </div>
-
-
                             <div class="row">
                                 <div class="col-md-6">
-                                    <label class="form-label">Hal Kg Price</label>
-                                    {{ Form::text('half_kg_price','',['class' => 'form-control']) }}
+                                    <label class="form-label">500 Gram Price</label>
+                                    {{ Form::number('half_kg_price','',['class' => 'form-control']) }}
                                 </div>
                                 <div class="col-md-6">
-                                    <label class="form-label">KG Price</label>
-                                    {{ Form::text('kg_price','',['class' => 'form-control']) }}
+                                    <label class="form-label">1000 Gram Price</label>
+                                    {{ Form::number('kg_price','',['class' => 'form-control']) }}
                                 </div>
                             </div>
-
-
                             <div class="row">
                                 <div class="col-md-4">
                                     <label class="form-label">Category</label>
-                                    {{ Form::select('category_id', $categories, '', ['class' => 'form-control','id' => 'category_id']) }}
+                                    {{ Form::select('category_id', $categories, '', ['placeholder'=>'Select Category','class' => 'form-control','id' => 'category_id']) }}
                                 </div>
                                 <div class="col-md-4">
                                     <div class="card-header py-3 d-flex justify-content-between align-items-center bg-transparent border-bottom-0">
@@ -86,13 +82,12 @@
                                     <input name="freshfromthefarm" type="checkbox" value="1">
                                 </div>
                             </div>
-                    </div>
+                    <!-- </div> -->
                     <div class="row">
                         <div class="col-md-12">
                             <label class="form-label">Description</label>
                             {{ Form::textarea('description','',['rows' => 4,'id' => 'description', 'class' => 'form-control']) }}
                         </div>
-
                     </div>
                     <div class="row">
                         <div class="col-md-6">
@@ -104,7 +99,6 @@
                         </div>
                         <div class="row">
                             <div class="col-lg-6">
-
                                 <button id="addPropertyImgeRow" type="button" class="btn btn-primary btn-info">Add Row</button>
 
                                 <input type="file" name="image[]" class="form-control">
@@ -125,7 +119,6 @@
 @section('script')
 <script>
     $("#addPropertyImgeRow").click(function() {
-
         var html = '';
         html += '<div id="inputPropImgRow">';
         html += '<div class="input-group mb-3">';
@@ -134,11 +127,8 @@
         html += '<button id="removePropImgRow" type="button" class="btn btn-danger"><i class="icofont-ui-delete text-danger"></i></button>';
         html += '</div>';
         html += '</div>';
-
         $('#newPropImgRow').append(html);
-
     });
-
     $(document).on('click', '#removePropImgRow', function() {
         $(this).closest('#inputPropImgRow').remove();
     });

@@ -1,5 +1,10 @@
 @extends('admin.layouts.app')
 @section('style')
+<style>
+    td {
+        text-align: left !important;
+    }
+</style>
 @endsection
 @section('content')
 @include('admin.inc.validation_message')
@@ -10,7 +15,7 @@
         <div class="row align-items-center">
             <div class="border-0 mb-4">
                 <div class="card-header py-3 no-bg bg-transparent d-flex align-items-center px-0 justify-content-between border-bottom flex-wrap">
-                    <span class="btn btn-primary py-2 px-5 text-uppercase btn-set-task w-sm-100">List</span>
+                    <span class="btn py-2 px-5 text-uppercase btn-set-task w-sm-100">List</span>
                     <h3 class="fw-bold mb-0"></h3>
                     <a href="{{route('admin.offers.create')}}" class="btn btn-primary py-2 px-5 text-uppercase btn-set-task w-sm-100">Add</a>
                 </div>
@@ -41,7 +46,7 @@
                                     <td><img src="{{asset('storage/app/public/product_images/'.$image)}}" class="avatar lg rounded me-2" alt="image not found"></td>
                                     <td>{{isset($val->products->name) ? $val->products->name : ''}}</td>
                                     <td>{{$val->minimum_order_value}}</td>
-                                    <td>{{$val->quantity_type}}</td>                                    
+                                    <td>{{$val->quantity_type}}</td>
                                     <td>{{$val->description}}</td>
                                     <td>{{$val->status == 1 ? 'Published' : 'Unpublish'}}</td>
                                     <td>
@@ -71,7 +76,7 @@
             .catch(error => {
                 console.error(error);
             });
-        
+
     });
     $(function() {
         $('.dropify').dropify();

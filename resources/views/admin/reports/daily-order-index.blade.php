@@ -1,6 +1,11 @@
 @extends('admin.layouts.app')
 @section('style')
 
+<style>
+    td {
+        text-align: left !important;
+    }
+</style>
 
 @endsection
 @section('content')
@@ -12,7 +17,7 @@
         <div class="row align-items-center">
             <div class="border-0 mb-4">
                 <div class="card-header py-3 no-bg bg-transparent d-flex align-items-center px-0 justify-content-between border-bottom flex-wrap">
-                    <span class="btn btn-primary py-2 px-5 text-uppercase btn-set-task w-sm-100">List</span>
+                    <span class="btn py-2 px-5 text-uppercase btn-set-task w-sm-100">List</span>
                     <h3 class="fw-bold mb-0"></h3>
                 </div>
             </div>
@@ -28,6 +33,7 @@
                                     <th>Pav Quantity</th>
                                     <th>Half KG Quantity</th>
                                     <th>KG Quantity</th>
+                                    <th>Total In KG</th>
                                     <th>Created At</th>
                                 </tr>
                             </thead>
@@ -38,6 +44,7 @@
                                     <td>{{$val->product_quantity_phav}}</td>
                                     <td>{{$val->product_quantity_half_kg}}</td>
                                     <td>{{$val->product_quantity_kg}}</td>
+                                    <td>{{$val->TOTAL_SUM}}</td>
                                     <td>{{$val->created_at}}</td>
                                 </tr>
                                 @empty

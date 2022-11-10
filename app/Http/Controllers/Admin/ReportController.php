@@ -28,11 +28,22 @@ class ReportController extends Controller
             "product_name",
             "product_id",
             "created_at",
-            DB::raw("SUM(product_quantity_phav) as product_quantity_phav"),
-            DB::raw("SUM(product_quantity_half_kg) as product_quantity_half_kg"),
-            DB::raw("SUM(product_quantity_kg) as product_quantity_kg")
+            DB::raw("(CASE 
+            WHEN SUM(product_quantity_phav) > 0 THEN SUM(product_quantity_phav) ELSE  0 END )as product_quantity_phav"),
+
+            DB::raw("(CASE
+            WHEN SUM(product_quantity_half_kg) > 0 THEN SUM(product_quantity_half_kg) ELSE 0 END ) as product_quantity_half_kg"),
+
+            DB::raw("(CASE 
+            WHEN SUM(product_quantity_kg)      > 0  THEN SUM(product_quantity_kg) ELSE 0 END ) as product_quantity_kg"),
+
+            // DB::raw("(product_quantity_phavs/4)+(product_quantity_half_kgs/2)+(product_quantity_kgs) as TOTAL_SUM"),
         )->groupBy("product_id")
             ->get();
+        foreach ($reports as $key => $value) {
+            $value->TOTAL_SUM = ($value->product_quantity_phav / 4) + ($value->product_quantity_half_kg / 2) + ($value->product_quantity_kg);
+        }
+        // dd($reports[0]->TOTAL_SUM);
         $data     = compact('title', 'reports');
         return view('admin.reports.daily-order-index', $data);
     }

@@ -1,5 +1,10 @@
 @extends('admin.layouts.app')
 @section('style')
+<style>
+    td {
+        text-align: left !important;
+    }
+</style>
 @endsection
 @section('content')
 @include('admin.inc.validation_message')
@@ -10,7 +15,7 @@
         <div class="row align-items-center">
             <div class="border-0 mb-4">
                 <div class="card-header py-3 no-bg bg-transparent d-flex align-items-center px-0 justify-content-between border-bottom flex-wrap">
-                    <span class="btn btn-primary py-2 px-5 text-uppercase btn-set-task w-sm-100">Old Orders</span>
+                    <span class="btn py-2 px-5 text-uppercase btn-set-task w-sm-100">Old Orders</span>
                 </div>
             </div>
         </div> <!-- Row end  -->
@@ -27,6 +32,7 @@
                                     <th>Mobile</th>
                                     <th>Order<br> Amount</th>
                                     <th>Payment<br> Method</th>
+                                    <th>Product Name</th>
                                     <th>Order <br> Status</th>
                                     <th>Address</th>
                                     <th>Pincode</th>
@@ -43,6 +49,19 @@
                                     <td>{{$val->users->mobile}}</td>
                                     <td>{{$val->order_amount}}</td>
                                     <td>{{$val->payment_method}}</td>
+
+                                    <td>
+                                        @if(is_array($val->orderProductList) || is_object($val->orderProductList))
+                                        @forelse($val->orderProductList as $products)
+
+                                        <span><b> Name:</b> {{ $products->product_name ?? '' }}</span><br>
+                                        <span><b> Pav:</b> {{ $products->product_quantity_phav ?? '' }}</span><br>
+                                        <span><b> Half Kg:</b> {{ $products->product_quantity_half_kg ?? '' }}</span><br>
+                                        <span><b> Kg:</b> {{ $products->product_quantity_kg ?? '' }}</span><br>
+                                        @empty
+                                        @endforelse
+                                        @endif
+                                    </td>
 
 
                                     <td>{{$val->order_delivery_status}}</td>

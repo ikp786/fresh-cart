@@ -193,7 +193,7 @@ class AuthController extends BaseController
 		}
 		try {
 			$verifaction_otp = rand(1000, 9999);
-			Self::send_sms_otp($request->mobile, $verifaction_otp);
+			// Self::send_sms_otp($request->mobile, $verifaction_otp);
 			$user_detail->otp = $verifaction_otp;
 			$user_detail->save();
 			Self::send_sms_otp($request->mobile, $verifaction_otp);
@@ -374,14 +374,55 @@ class AuthController extends BaseController
 	{
 
 		// $opt_url = "https://2factor.in/API/V1/fd9c6a99-19d7-11ec-a13b-0200cd936042/SMS/" . $mobile_number . "/" . $verification_otp . "/OTP_TAMPLATE";
-		// $curl = curl_init();
-		// curl_setopt($curl, CURLOPT_URL, $opt_url);
-		// curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
-		// curl_setopt($curl, CURLOPT_PROXYPORT, "80");
-		// curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-		// $result = curl_exec($curl);
+		$opt_url = "https://2factor.in/API/V1/786547ea-bbc8-11ec-9c12-0200cd936042/SMS/" . $mobile_number . "/" . $verification_otp . "/OTP_TAMPLATE";
+		$curl = curl_init();
+		curl_setopt($curl, CURLOPT_URL, $opt_url);
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
+		curl_setopt($curl, CURLOPT_PROXYPORT, "80");
+		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+		$result = curl_exec($curl);
 		return;
 	}
+
+
+	public function sendsms2factorotp($numbers, $otp)
+    {
+       
+      /*   phone = '+918949529301';
+        $otp = '7777'; */
+
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+
+            CURLOPT_URL => 'https://2factor.in/API/V1/786547ea-bbc8-11ec-9c12-0200cd936042/SMS/+' . $numbers . '/' . $otp . '',
+
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+
+            CURLOPT_MAXREDIRS => 10,
+
+            CURLOPT_TIMEOUT => 30,
+
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+
+            CURLOPT_CUSTOMREQUEST => "GET",
+            CURLOPT_POSTFIELDS => "{}",
+
+        ));
+
+        $response = curl_exec($curl);
+
+        $err = curl_error($curl);
+
+        $respons = json_decode($response, true);
+        // print_r($respons); exit;
+        return $respons;
+        // echo "<pre>";
+        // print_r($respons['Status']);
+
+        curl_close($curl);
+    }
 
 
 	public function changeOnlineStatus()

@@ -22,7 +22,7 @@ class UserProfileCollection extends JsonResource
             'email'         => $this->email,
             'mobile'        => $this->mobile,
             'address'       => $this->address,
-            'dob'           => $this->dob,            
+            'dob'           => $this->dob,
             'profile_pic'   => !empty($this->profile_pic) ? asset('storage/app/public/user_images/' . $this->profile_pic) : asset('storage/app/public/default/default.jpg'),
         ];
     }

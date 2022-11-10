@@ -2,12 +2,11 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
-use Illuminate\Contracts\Validation\Validator;
 
-
-class StoreOrderRequest extends FormRequest
+class StoreAddressRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,18 +26,12 @@ class StoreOrderRequest extends FormRequest
     public function rules()
     {
         return [
-            'payment_method'        => 'required|In:Cod,Online',            
-            'address_id'            => 'required|exists:addresses,id',
-            // 'pincode'               => 'required|integer',
-            // 'address_type'          => 'required'
-        ];
-    }
-
-
-    public function messags()
-    {
-        return [
-            'payment_method.required'        => 'Payment method should be required',            
+            'name'                  => 'required',
+            'mobile'                => 'required',
+            'email'                 => 'required|email',
+            'address'               => 'required',
+            'pincode'               => 'required|integer',
+            'type'                  => 'required|In:Home,Office,Other'
         ];
     }
 

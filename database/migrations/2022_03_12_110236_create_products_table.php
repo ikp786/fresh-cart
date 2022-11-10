@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('products', function (Blueprint $table) {            
             $table->bigIncrements('id');
             $table->string('name');
-            $table->enum('freshfromthefarm',['0,1'])->default('0')->comment('is freshfromthefarm == 1 else == 0');
+            $table->enum('freshfromthefarm',[0,1])->default(0)->comment('is freshfromthefarm == 1 else == 0');
             $table->decimal('pav_price', 8, 2)->default(0.00);
             $table->decimal('half_kg_price', 8, 2)->default(0.00);
             $table->decimal('kg_price', 8, 2)->default(0.00);

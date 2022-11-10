@@ -1,5 +1,10 @@
 @extends('admin.layouts.app')
 @section('style')
+<style>
+    td {
+        text-align: left !important;
+    }
+</style>
 @endsection
 @section('content')
 @include('admin.inc.validation_message')
@@ -10,7 +15,7 @@
         <div class="row align-items-center">
             <div class="border-0 mb-4">
                 <div class="card-header py-3 no-bg bg-transparent d-flex align-items-center px-0 justify-content-between border-bottom flex-wrap">
-                    <span class="btn btn-primary py-2 px-5 text-uppercase btn-set-task w-sm-100">Order Product</span>
+                    <span class="btn py-2 px-5 text-uppercase btn-set-task w-sm-100">Order Product</span>
                     <h3 class="fw-bold mb-0"></h3>
                 </div>
             </div>
@@ -26,24 +31,27 @@
                                     <th>Order Date</th>
                                     <th>Product Name</th>
                                     <th>Product Description</th>
-                                    <th>Product Quantity</th>
+                                    <th>250 Gram</th>
+                                    <th>500 Gram</th>
+                                    <th>1000 Gram</th>
                                     <th>Product Amount</th>
                                     <th>Address</th>
                                     <th>Pincode</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @forelse($orders as $val)
+                                @forelse($orders as $val)                                
                                 <tr>
                                     <td><strong>{{$val->orders->order_number}}</strong></a></td>
                                     <td> {{$val->created_at}} </td>
                                     <td>{{$val->product_name}}</td>
                                     <td>{{$val->product_description}}</td>
-                                    <td>{{$val->product_quantity}}</td>
+                                    <td>{{$val->product_quantity_phav}}</td> 
+                                    <td>{{$val->product_quantity_half_kg}}</td> 
+                                    <td>{{$val->product_quantity_kg}}</td> 
                                     <td>{{$val->total_amount}}</td>
                                     <td>{{isset($val->orders->addresses->address) ? $val->orders->addresses->address : ''}}</td>
                                     <td>{{isset($val->orders->addresses->pincode) ? $val->orders->addresses->pincode : ''}}</td>
-
                                 </tr>
                                 @empty
                                 @endforelse
@@ -60,11 +68,9 @@
 <script>
     $(document).ready(function() {
         $('.asign-driver').change(function() {
-
             if (!confirm("Do you want Asign  driver")) {
                 return false;
             }
-
             var driver_id = $(this).val();
             var order_id = $(this).attr('order_id');
             if (driver_id != '') {
@@ -85,7 +91,6 @@
                 });
             }
         });
-
     });
 </script>
 @endsection

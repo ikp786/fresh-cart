@@ -18,9 +18,9 @@ return new class extends Migration
             $table->unsignedBigInteger('product_id');
             $table->string('product_name')->nullable();
             $table->unsignedBigInteger('user_id');
-            $table->string('product_quantity_phav')->default(0);
-            $table->string('product_quantity_half_kg')->default(0);
-            $table->string('product_quantity_kg')->default(0);
+            $table->string('product_quantity_phav')->nullable();
+            $table->string('product_quantity_half_kg')->nullable();
+            $table->string('product_quantity_kg')->nullable();
             $table->string('product_total_quantity');            
             $table->decimal('product_phav_amount', 8, 2)->default(0.00);
             $table->decimal('product_half_kg_amount', 8, 2)->default(0.00);

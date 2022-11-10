@@ -18,12 +18,19 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $products   = Product::with('images', 'categories')->get();
-
+        $products   = Product::with('images', 'categories')->orderBy('id', 'desc');
+        if (isset($request->category_id) &&  $request->category_id != '') {
+            $products->where('category_id', $request->category_id);
+        }
+        if (isset($request->status) &&  $request->status != '') {
+            $products->where('status', $request->status);
+        }
+        $products = $products->get();
+        $categories  = Category::pluck('name', 'id');
         $title      = 'products';
-        $data       = compact('title', 'products');
+        $data       = compact('title', 'products', 'request', 'categories');
         return view('admin.products.index', $data);
     }
 
@@ -146,6 +153,18 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
         //
+    }
+
+    public function addFreshFarma(Request $request)
+    {
+        $products = Product::find($request->product_id);
+        if ($products->freshfromthefarm == '1') {            
+            $products->freshfromthefarm = '0';
+        } else {
+            $products->freshfromthefarm = '1';
+        }        
+        $products->save();
+        return response()->json(['status' => true]);
     }
 
     public function deleteProductImage(Request $request)

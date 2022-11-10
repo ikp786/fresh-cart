@@ -9,10 +9,10 @@ class Address extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'order_id',
+    protected $fillable = [        
         'user_id',
         'type',
+        'is_favorite',
         'name',
         'mobile',
         'email',

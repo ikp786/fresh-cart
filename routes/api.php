@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\AddressController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\ProductController;
@@ -41,7 +42,8 @@ Route::get('login', [AuthController::class, 'unauthorized_access'])->name('login
 Route::controller(ProductController::class)->group(function () {
     Route::get('get_category_list', 'getCategoryList');
     Route::get('get_offer_list', 'getOfferList');
-    Route::get('get_product_list', 'getProductList');
+    Route::get('get_product_category_wise/{cate_id}', 'getProductCategoryWise');
+    Route::get('get_product_fresh_farm', 'getProductFreshFarmList');
     Route::post('get_search_product', 'getSearchProduct');
     Route::get('get_product_detail/{id}', 'getProductDetails');
 });
@@ -71,12 +73,32 @@ Route::middleware('auth:api')->group(function () {
         Route::post('re_sent_otp_mobile_update', 'reSentOtpMobileUpdate');
         Route::get('change_online_status', 'changeOnlineStatus');
     });
+
+    /*
+        |--------------------------------------------------------------------------
+        | PRODUCT CART ROUTE
+        |--------------------------------------------------------------------------
+        */
     Route::controller(ProductController::class)->group(function () {
         Route::post('add_to_cart', 'addToCart');
         Route::get('delete_in_cart/{id}', 'deleteProdcutInCart');
         Route::get('get_Cart_detail', 'getCartDetail');
-        Route::get('user_dashboard', 'userDashboard');        
+        Route::get('user_dashboard', 'userDashboard');
     });
+
+    /*
+        |--------------------------------------------------------------------------
+        | ADDRESS ROUTE
+        |--------------------------------------------------------------------------
+        */
+    Route::controller(AddressController::class)->group(function () {
+        Route::post('add_address', 'create');
+        Route::post('update_address', 'update');
+        Route::get('get_address_list', 'index');
+        Route::delete('delete_address/{id}', 'delete');
+        Route::get('change_address_status/{id}', 'changeAddressStatus');
+    });
+
 
     /*
         |--------------------------------------------------------------------------
@@ -85,6 +107,7 @@ Route::middleware('auth:api')->group(function () {
         */
     Route::controller(OrderController::class)->group(function () {
         Route::post('create_order', 'createOrder');
+        Route::post('save_order_payment_response', 'savePaymentResponse');
         Route::get('get_user_order_list/{status}', 'getUserOrderList');
         Route::get('get_user_order_detail/{id}', 'getUserOrderDetail');
         Route::get('get_driver_order_list', 'getDriverOrderList');

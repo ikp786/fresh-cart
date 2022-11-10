@@ -10,7 +10,7 @@
         <div class="row align-items-center">
             <div class="border-0 mb-4">
                 <div class="card-header py-3 no-bg bg-transparent d-flex align-items-center px-0 justify-content-between border-bottom flex-wrap">
-                    <span class="btn btn-primary py-2 px-5 text-uppercase btn-set-task w-sm-100">Users</span>
+                    <span class="primary py-2 px-5 text-uppercase btn-set-task w-sm-100">Users</span>
                     <h3 class="fw-bold mb-0"></h3>
                 </div>
             </div>
@@ -38,7 +38,7 @@
                                     <td>{{$val->email}}</td>
                                     <td>{{$val->mobile}}</td>
                                     <td>{{$val->address}}</td>
-                                    <td>{{$val->total_order > 0 ? $val->total_order : 0 }}</td>
+                                    <td>{{$val->orders->count() > 0 ? $val->orders->count() : 0 }}</td>
                                     </td>
                                 </tr>
                                 @empty

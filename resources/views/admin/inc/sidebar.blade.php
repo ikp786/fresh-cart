@@ -54,7 +54,7 @@
                 <ul class="sub-menu collapse" id="menu-sale">
                     <li><a class="ms-link" href="{{route('admin.daily.purchase.reports.index')}}">Daily Purchase Report</a></li>
                     <li><a class="ms-link" href="{{route('admin.daily.order.reports.index')}}">Mandi Sheet</a></li>
-                    <li><a class="ms-link" href="#">Report 3</a></li>
+                    <!-- <li><a class="ms-link" href="#">Report 3</a></li> -->
                 </ul>
             </li>
             <li class="collapsed">
@@ -68,6 +68,8 @@
                     <li><a class="ms-link" href="department.html">Department</a></li> -->
                 </ul>
             </li>
+            <li><a class="m-link @if(request()->is('admin/offers') || request()->is('admin/offers/*')) active @endif" href="{{route('admin.offers.index')}}"><i class="icofont-home fs-5"></i> <span>Offers</span></a></li>
+
             <li class="collapsed">
                 <a class="m-link" data-bs-toggle="collapse" data-bs-target="#menu-Componentsone" href="#"><i class="icofont-ui-calculator"></i> <span>Setting</span> <span class="arrow icofont-rounded-down ms-auto text-end fs-5"></span></a>
                 
